@@ -15,7 +15,9 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
-set(GAME_SRC ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp)
+set(GAME_SRC ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp
+             ${CMAKE_CURRENT_LIST_DIR}/src/game.cpp
+             ${CMAKE_CURRENT_LIST_DIR}/src/dialog_box.cpp)
 
 add_executable(game ${GAME_SRC})
 target_include_directories(game PUBLIC include/)
