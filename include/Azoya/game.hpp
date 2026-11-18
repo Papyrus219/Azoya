@@ -19,6 +19,9 @@ private:
 
     sf::RenderWindow window{};
 
+    uint32_t dialog1_id{};
+    uint32_t dialog2_id{};
+
     sf::Font font{};
     Dialog_box test_box{};
 };
