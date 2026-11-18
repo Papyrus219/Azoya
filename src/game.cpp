@@ -12,12 +12,8 @@ void azoya::Game::Setup()
         std::cerr << "KUŹWA MAĆ!\n";
     }
 
-    comunicate.setPosition( {1700, 500} );
-    comunicate.setCharacterSize( 100 );
-    comunicate.setFillColor( sf::Color::Black );
-    comunicate.setString( "Cool czcionka!" );
+    test_box.Init(font, "Hello Gabi! Fajna ta bliblioteka choc, Ma swoje wady. Ale nie ma tragedii... ALDSK ADJF USHF DSI HF DIUSG HG DUIHFD IUS HDF UOHDFSU HSFDI UFDHFD HFDS IUH HUS UAHF UFHU FH IAD FIDF HJ", sf::Color::Green, sf::Color::Red);
 
-    std::cerr << sf::Texture::getMaximumSize() << '\n';
 }
 
 void azoya::Game::Start()
@@ -46,7 +42,7 @@ void azoya::Game::Render()
 {
     window.clear( sf::Color::White );
 
-    window.draw( comunicate );
+    window.draw( test_box );
 
     window.display();
 }

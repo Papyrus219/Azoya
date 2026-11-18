@@ -20,7 +20,7 @@ private:
     sf::RenderWindow window{};
 
     sf::Font font{};
-    sf::Text comunicate{font};
+    Dialog_box test_box{};
 };
 
 }
