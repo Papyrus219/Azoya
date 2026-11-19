@@ -32,7 +32,7 @@ void azoya::Dialog_box::Init(const sf::String & name, const sf::Font & font, sf:
     name_box.setOutlineColor( border_color );
     name_box.setOutlineColor(border_color);
 
-    this->name.setPosition( name_box.getPosition() + sf::Vector2f{20, -10} );
+    this->name.setPosition( name_box.getPosition() + sf::Vector2f{20, 0} );
 
     if(letter_sound)
     {
@@ -107,7 +107,6 @@ void azoya::Dialog_box::Set_name(const sf::String & name)
 
     sf::Vector2f name_size = this->name.getLocalBounds().size;
     name_box.setSize( name_size + sf::Vector2f{40, 20} );
-
 }
 
 void azoya::Dialog_box::Set_text_speed(Text_speed speed)

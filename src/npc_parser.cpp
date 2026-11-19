@@ -62,10 +62,17 @@ void azoya::Npc_parser::Parse_line(std::string_view line)
         }
         case Line_mode::NAME_DECLARATION:
         {
+            auto name_start_pos = line.find('[') + 1;
+            auto name_end_pos = line.find(']');
+
+            auto name = line.substr(name_start_pos, name_end_pos - name_start_pos);
+
+            currently_parsed_npc.dialog_box.Set_name( name );
             break;
         }
         case Line_mode::DIALOG_DECLARATION:
         {
+
             break;
         }
     }
