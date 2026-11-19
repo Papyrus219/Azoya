@@ -11,11 +11,25 @@ void azoya::Game::Setup()
     {
         std::cerr << "KUŹWA MAĆ!\n";
     }
+    if(!sound_bufer.loadFromFile("../../../audio/litera.wav"))
+    {
+        std::cerr << "KURKA WODNA!\n";
+    }
 
-    test_box.Init(font, sf::Color::Green, sf::Color::Red);
+    sound.setBuffer( sound_bufer );
+
+    test_box.Init("Adrian", font, sf::Color::Green, sf::Color::Red, sound);
 
     dialog1_id = test_box.Add_dialog_option("Hello Gabi! Fajna ta bliblioteka choc, Ma swoje wady. Ale nie ma tragedii...");
-    dialog2_id = test_box.Add_dialog_option("Litwo! Ojczyzno moja! ty jestes jak zdrowie Ile cie trzeba cenic, ten tylko sie dowie, Kto cię stracil. Dzis pieknosc twa w calej ozdobie Widze i opisuje, bo tesknie po tobie.");
+    dialog2_id = test_box.Add_dialog_option("Litwo! Ojczyzno moja! ty jestes jak zdrowie Ile cie trzeba cenic, ten tylko sie dowie, Kto cie stracil. Dzis pieknosc twa w calej ozdobie Widze i opisuje, bo tesknie po tobie.");
+
+    if(!button_texture.loadFromFile("../../../img/button.png"))
+    {
+        std::cerr << "DOĆ KROTSET!\n";
+    }
+
+    button_sprite.setTexture(button_texture, true);
+    button_sprite.setPosition( {900, 500} );
 }
 
 void azoya::Game::Start()
@@ -30,7 +44,10 @@ void azoya::Game::Start()
 
 void azoya::Game::Update()
 {
-    test_box.Update();
+    if(current_dialog_box)
+    {
+        current_dialog_box->Update();
+    }
 
     while(auto event = window.pollEvent())
     {
@@ -38,11 +55,23 @@ void azoya::Game::Update()
         {
             if(button_pressed->button == sf::Mouse::Button::Left)
             {
-                test_box.Set_dialog_option(dialog1_id);
+                auto raw_pos = sf::Mouse::getPosition( window );
+                auto mouse_pos = window.mapPixelToCoords( raw_pos );
+
+                if(button_sprite.getGlobalBounds().contains( mouse_pos ))
+                {
+                    test_box.Set_dialog_option(dialog1_id);
+                    test_box.Set_text_speed( Dialog_box::Text_speed::NORMAL );
+                    test_box.Set_background_color( {115, 92, 221} );
+                    test_box.Set_outline_color( {114, 0, 179} );
+                    test_box.Set_text_color( {55, 0, 10} );
+
+                    current_dialog_box = &test_box;
+                }
             }
             else if(button_pressed->button == sf::Mouse::Button::Right)
             {
-                test_box.Set_dialog_option(dialog2_id);
+                test_box.Set_name("Kunegunda");
             }
         }
         else if(event->is<sf::Event::Closed>())
@@ -57,7 +86,12 @@ void azoya::Game::Render()
 {
     window.clear( sf::Color::White );
 
-    window.draw( test_box );
+    if(current_dialog_box)
+    {
+        window.draw( test_box );
+    }
+
+    window.draw( button_sprite );
 
     window.display();
 }

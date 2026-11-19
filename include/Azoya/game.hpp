@@ -2,7 +2,8 @@
 #define AZOYA_GAME_HPP
 
 #include <SFML/Graphics.hpp>
-#include <Azoya/dialog_box.hpp>
+#include <SFML/Audio.hpp>
+#include <Azoya/dialog/dialog_box.hpp>
 
 namespace azoya
 {
@@ -24,6 +25,14 @@ private:
 
     sf::Font font{};
     Dialog_box test_box{};
+
+    Dialog_box * current_dialog_box{};
+
+    sf::Texture button_texture{};
+    sf::Sprite button_sprite{ button_texture };
+
+    sf::SoundBuffer sound_bufer{};
+    sf::Sound sound{ sound_bufer };
 };
 
 }
