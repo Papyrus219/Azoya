@@ -1,5 +1,7 @@
 #include <Azoya/game.hpp>
 #include <iostream>
+#include <Azoya/npc.hpp>
+#include <Azoya/npc_parser.hpp>
 
 using namespace azoya;
 
@@ -23,13 +25,17 @@ void azoya::Game::Setup()
     dialog1_id = test_box.Add_dialog_option("Hello Gabi! Fajna ta bliblioteka choc, Ma swoje wady. Ale nie ma tragedii...");
     dialog2_id = test_box.Add_dialog_option("Litwo! Ojczyzno moja! ty jestes jak zdrowie Ile cie trzeba cenic, ten tylko sie dowie, Kto cie stracil. Dzis pieknosc twa w calej ozdobie Widze i opisuje, bo tesknie po tobie.");
 
-    if(!button_texture.loadFromFile("../../../img/button.png"))
+    test_npc = Npc::parser.Parse_npc_config_file("../../../data/Piotrek_Gola.pgconf");
+
+    if(!test_npc.texture.loadFromFile("../../../img/button.png"))
     {
         std::cerr << "DOĆ KROTSET!\n";
     }
 
-    button_sprite.setTexture(button_texture, true);
-    button_sprite.setPosition( {900, 500} );
+    test_npc.sprite.setTexture(test_npc.texture, true);
+    test_npc.sprite.setPosition({900, 500});
+
+    current_npc = &test_npc;
 }
 
 void azoya::Game::Start()
@@ -44,9 +50,20 @@ void azoya::Game::Start()
 
 void azoya::Game::Update()
 {
-    if(current_dialog_box)
+    if(current_npc)
     {
-        current_dialog_box->Update();
+        switch(current_npc->Get_mode())
+        {
+            case Node_mode::NONE:
+                break;
+            case Node_mode::DIALOG:
+                current_npc->dialog_box.Update();
+            case Node_mode::INPUT:
+                ///@todo
+                break;
+            case Node_mode::FUNCTION:
+                break;
+        }
     }
 
     while(auto event = window.pollEvent())
@@ -58,16 +75,7 @@ void azoya::Game::Update()
                 auto raw_pos = sf::Mouse::getPosition( window );
                 auto mouse_pos = window.mapPixelToCoords( raw_pos );
 
-                if(button_sprite.getGlobalBounds().contains( mouse_pos ))
-                {
-                    test_box.Set_dialog_option(dialog1_id);
-                    test_box.Set_text_speed( Dialog_box::Text_speed::NORMAL );
-                    test_box.Set_background_color( {115, 92, 221} );
-                    test_box.Set_outline_color( {114, 0, 179} );
-                    test_box.Set_text_color( {55, 0, 10} );
-
-                    current_dialog_box = &test_box;
-                }
+                current_npc->Click();
             }
             else if(button_pressed->button == sf::Mouse::Button::Right)
             {
@@ -86,12 +94,23 @@ void azoya::Game::Render()
 {
     window.clear( sf::Color::White );
 
-    if(current_dialog_box)
+    if(current_npc)
     {
-        window.draw( test_box );
-    }
+        window.draw( current_npc->sprite );
 
-    window.draw( button_sprite );
+        switch(current_npc->Get_mode())
+        {
+            case Node_mode::NONE:
+                break;
+            case Node_mode::DIALOG:
+                window.draw( current_npc->dialog_box );
+            case Node_mode::INPUT:
+                ///@todo
+                break;
+            case Node_mode::FUNCTION:
+                break;
+        }
+    }
 
     window.display();
 }

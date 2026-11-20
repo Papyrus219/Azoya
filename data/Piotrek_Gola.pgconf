@@ -1,4 +1,11 @@
 {Piotrek Gola}
+../../../fonts/Kotek.otf
 
-[0] Cześć Kolego! ~1~
-[1] Wiedziałeś że jestem prosty? ~!2~
+[1] Czesc Kolego! ~2~
+[2] Wiedziales ze jestem prosty? ~3~
+[3] Jestes nie mily! ~4~
+[4] Dziekuje.
+
+@@@@@
+
+?1? Tak ~ Nie ~ 3 ^ 2

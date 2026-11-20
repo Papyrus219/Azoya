@@ -15,19 +15,24 @@ class Npc_parser;
 class Npc
 {
 public:
+    void Click();
 
+    Node_mode Get_mode() {return dialog_graf[ current_dialog_node_id ].node_mode;}
+
+    static Npc_parser parser;
+
+    Dialog_box dialog_box{};
+    sf::Sprite sprite{texture};
+    sf::Texture texture{};
 
 private:
     std::vector <Dialog_node> dialog_graf{};
 
-    static Npc_parser parser;
-
     uint32_t current_dialog_node_id{};
 
-    sf::Texture texture{};
-    sf::Sprite sprite{texture};
     Texture_changer tex_changer{};
-    Dialog_box dialog_box{};
+
+    sf::Font font;
 
     friend class Npc_parser;
 };

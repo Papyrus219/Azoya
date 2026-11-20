@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <Azoya/dialog/dialog_box.hpp>
+#include <Azoya/npc.hpp>
 
 namespace azoya
 {
@@ -27,6 +27,9 @@ private:
     Dialog_box test_box{};
 
     Dialog_box * current_dialog_box{};
+
+    Npc test_npc{};
+    Npc * current_npc;
 
     sf::Texture button_texture{};
     sf::Sprite button_sprite{ button_texture };

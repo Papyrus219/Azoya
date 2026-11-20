@@ -38,6 +38,8 @@ void azoya::Dialog_box::Init(const sf::String & name, const sf::Font & font, sf:
     {
         this->letter_sound = letter_sound;
     }
+
+    Set_text_speed( Text_speed::NORMAL );
 }
 
 void azoya::Dialog_box::Update()
