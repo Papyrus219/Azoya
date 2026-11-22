@@ -15,9 +15,9 @@ void azoya::Dialog_box::Init(const sf::String & name, const sf::Font & font, sf:
     box.setPosition({100, 500});
 
     current_animation_text.setFont(font);
-    current_animation_text.setCharacterSize(50);
+    current_animation_text.setCharacterSize(35);
     current_animation_text.setFillColor( sf::Color::Black );
-    current_animation_text.setPosition( (box.getPosition() + sf::Vector2f{10, 20}) );
+    current_animation_text.setPosition( (box.getPosition() + sf::Vector2f{5, 5}) );
 
     this->name.setString(name);
     this->name.setCharacterSize(50);
@@ -78,9 +78,9 @@ void azoya::Dialog_box::Update()
 uint32_t azoya::Dialog_box::Add_dialog_option(const sf::String & content)
 {
     dialogs_content.emplace_back(font, content);
-    dialogs_content.back().setCharacterSize(50);
+    dialogs_content.back().setCharacterSize(35);
     dialogs_content.back().setFillColor( sf::Color::Black );
-    dialogs_content.back().setPosition( (box.getPosition() + sf::Vector2f{10, 20}) );
+    dialogs_content.back().setPosition( (box.getPosition() + sf::Vector2f{5, 5}) );
 
     Format_text( dialogs_content.size() - 1 );
 
@@ -132,10 +132,10 @@ void azoya::Dialog_box::Set_position(sf::Vector2f new_position)
     box.setPosition( new_position );
     for(auto & text : dialogs_content)
     {
-        text.setPosition( new_position + sf::Vector2f{10, 20});
+        text.setPosition( new_position + sf::Vector2f{5, 5});
     }
-    current_animation_text.setPosition( new_position + sf::Vector2f{10, 20} );
-    name_box.setPosition( box.getPosition() - sf::Vector2f{ 0, name_box.getSize().y } );
+    current_animation_text.setPosition( new_position + sf::Vector2f{5, 5} );
+    name_box.setPosition( box.getPosition() - sf::Vector2f{ 0, name_box.getSize().y + name_box.getOutlineThickness() } );
     this->name.setPosition( name_box.getPosition() + sf::Vector2f{20, -10} );
 }
 
@@ -208,15 +208,11 @@ void azoya::Dialog_box::draw(sf::RenderTarget & target, sf::RenderStates states)
 
 void azoya::Dialog_box::Unformat_text(uint32_t which)
 {
-    for(auto i{0UZ}; i < dialogs_content[which].getString().getSize(); i++)
-    {
-        if(dialogs_content[which].getString()[i] == '\n')
-        {
-            auto string_copy = dialogs_content[which].getString().toAnsiString();
-            string_copy[i] = ' ';
-            dialogs_content[which].setString( string_copy );
-        }
-    }
+    auto & text = dialogs_content[which];   // at() zamiast [] dla sprawdzenia zakresu
+
+    sf::String str = text.getString();
+    str.replace("\n", " ");
+    text.setString(str);
 }
 
 void azoya::Dialog_box::Format_text(uint32_t which)

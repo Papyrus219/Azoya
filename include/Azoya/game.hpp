@@ -26,6 +26,8 @@ private:
     sf::Font font{};
     Dialog_box test_box{};
 
+    Input_box test_input_box{};
+
     Dialog_box * current_dialog_box{};
 
     Npc test_npc{};
@@ -33,6 +35,9 @@ private:
 
     sf::Texture button_texture{};
     sf::Sprite button_sprite{ button_texture };
+
+    sf::Texture background_texture{};
+    sf::Sprite background_sprite{background_texture};
 
     sf::SoundBuffer sound_bufer{};
     sf::Sound sound{ sound_bufer };

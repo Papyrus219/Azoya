@@ -7,7 +7,7 @@ using namespace azoya;
 
 void azoya::Game::Setup()
 {
-    window.create(sf::VideoMode{ {1920, 1080} }, "Azoya", sf::Style::Default);
+    window.create(sf::VideoMode{ {1910, 1080} }, "Azoya", sf::Style::Default);
 
     if(!font.openFromFile( "../../../fonts/Kotek.otf" ) )
     {
@@ -22,9 +22,6 @@ void azoya::Game::Setup()
 
     test_box.Init("Adrian", font, sf::Color::Green, sf::Color::Red, sound);
 
-    dialog1_id = test_box.Add_dialog_option("Hello Gabi! Fajna ta bliblioteka choc, Ma swoje wady. Ale nie ma tragedii...");
-    dialog2_id = test_box.Add_dialog_option("Litwo! Ojczyzno moja! ty jestes jak zdrowie Ile cie trzeba cenic, ten tylko sie dowie, Kto cie stracil. Dzis pieknosc twa w calej ozdobie Widze i opisuje, bo tesknie po tobie.");
-
     test_npc = Npc::parser.Parse_npc_config_file("../../../data/Piotrek_Gola.pgconf");
 
     if(!test_npc.texture.loadFromFile("../../../img/button.png"))
@@ -32,8 +29,21 @@ void azoya::Game::Setup()
         std::cerr << "DOĆ KROTSET!\n";
     }
 
+    if(!background_texture.loadFromFile("../../../img/background.png"))
+    {
+        std::cerr << "NOSZ KURNA!\n";
+    }
+
+    background_sprite.setTexture(background_texture, true);
+
     test_npc.sprite.setTexture(test_npc.texture, true);
     test_npc.sprite.setPosition({900, 500});
+
+    test_npc.dialog_box.Set_size( {1680, 240} );
+    test_npc.dialog_box.Set_position( {120, 832} );
+
+    test_npc.dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
+
 
     current_npc = &test_npc;
 }
@@ -50,6 +60,10 @@ void azoya::Game::Start()
 
 void azoya::Game::Update()
 {
+    auto raw_pos = sf::Mouse::getPosition( window );
+    auto mouse_pos = window.mapPixelToCoords( raw_pos );
+
+
     if(current_npc)
     {
         switch(current_npc->Get_mode())
@@ -58,13 +72,16 @@ void azoya::Game::Update()
                 break;
             case Node_mode::DIALOG:
                 current_npc->dialog_box.Update();
+                break;
             case Node_mode::INPUT:
-                ///@todo
+                current_npc->input_box.Update( mouse_pos );
                 break;
             case Node_mode::FUNCTION:
                 break;
         }
     }
+
+    test_input_box.Update(mouse_pos);
 
     while(auto event = window.pollEvent())
     {
@@ -72,10 +89,16 @@ void azoya::Game::Update()
         {
             if(button_pressed->button == sf::Mouse::Button::Left)
             {
-                auto raw_pos = sf::Mouse::getPosition( window );
-                auto mouse_pos = window.mapPixelToCoords( raw_pos );
+                if(current_npc)
+                {
+                    current_npc->Click( mouse_pos );
+                }
 
-                current_npc->Click();
+                auto result = test_input_box.Click( mouse_pos );
+                if(result)
+                {
+                    std::clog << "CLick: " << result.value() << '\n';
+                }
             }
             else if(button_pressed->button == sf::Mouse::Button::Right)
             {
@@ -92,7 +115,9 @@ void azoya::Game::Update()
 
 void azoya::Game::Render()
 {
-    window.clear( sf::Color::White );
+    window.clear();
+
+    window.draw( background_sprite );
 
     if(current_npc)
     {
@@ -104,8 +129,9 @@ void azoya::Game::Render()
                 break;
             case Node_mode::DIALOG:
                 window.draw( current_npc->dialog_box );
+                break;
             case Node_mode::INPUT:
-                ///@todo
+                window.draw( current_npc->input_box );
                 break;
             case Node_mode::FUNCTION:
                 break;

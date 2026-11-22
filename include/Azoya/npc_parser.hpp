@@ -17,8 +17,17 @@ private:
         NONE,
         NAME_DECLARATION,
         FONT_PATH,
+        TEXTURE_PATH,
+        VARIANT_SIZE,
+        DIALOG_BOX_BACKGROUND_COLOR,
+        DIALOG_BOX_BORDER_COLOR,
+        DIALOG_BOX_TEXT_COLOR,
+        INPUT_BOX_BACKGROUND_COLOR,
+        INPUT_BOX_BORDER_COLOR,
+        INPUT_BOX_TEXT_COLOR,
         DIALOG_DECLARATION,
         END_OF_DIALOGS,
+        INPUT_DECLARATION,
     } line_mode;
 
 public:
@@ -30,6 +39,8 @@ public:
 private:
     void Parse_line(std::string_view line);
 
+    sf::Color Parse_color(std::string_view line);
+
     Npc currently_parsed_npc{};
 
     std::string_view name{};
@@ -38,6 +49,14 @@ private:
     std::ifstream file{};
     std::size_t line_count{};
     std::string buffor{};
+
+    sf::Color dialog_box_background_color{};
+    sf::Color dialog_box_border_color{};
+    sf::Color dialog_box_text_color{};
+
+    sf::Color input_box_background_color{};
+    sf::Color input_box_border_color{};
+    sf::Color input_box_text_color{};
 };
 
 template<typename T>
