@@ -104,6 +104,7 @@ void azoya::Npc_parser::Parse_line(std::string_view line)
             {
                 std::cerr << "ERROR::NPC_PARSER::Failed to texture font: " << line << '\n';
             }
+            currently_parsed_npc.sprite.setTexture(currently_parsed_npc.texture, true);
 
             line_mode = Line_mode::VARIANT_SIZE;
             break;
@@ -125,6 +126,7 @@ void azoya::Npc_parser::Parse_line(std::string_view line)
             Convert_string_to_number(y_str, variant_size.y, "Variant y");
 
             currently_parsed_npc.tex_changer.Init(currently_parsed_npc.texture, variant_size);
+            currently_parsed_npc.sprite.setTextureRect( currently_parsed_npc.tex_changer.Get_variant_rect( 0 ) );
 
             line_mode = Line_mode::DIALOG_BOX_BACKGROUND_COLOR;
             break;
@@ -183,14 +185,20 @@ void azoya::Npc_parser::Parse_line(std::string_view line)
             new_node.node_mode = Node_mode::DIALOG;
 
             auto id_start_pos = line.find('[') + 1;
-            auto id_end_pos = line.find(']');
+            auto id_end_pos = line.find_first_of(':');
 
             auto id = line.substr(id_start_pos, id_end_pos - id_start_pos);
             std::clog << "ID: " << id << '\n';
 
             Convert_string_to_number(id, current_id, "Dialog id");
 
-            auto dialog_start_pos = line.find_first_not_of("] ", id_end_pos);
+            auto face_id_start_pos = line.find_first_not_of(": ", id_end_pos);
+            auto face_id_end_pos = line.find_first_of("]", face_id_start_pos);
+
+            auto face_id = line.substr(face_id_start_pos, face_id_end_pos - face_id_start_pos);
+            Convert_string_to_number(face_id, new_node.sprite_variant_id, "Sprite variant");
+
+            auto dialog_start_pos = line.find_first_not_of("] ", face_id_end_pos);
             auto dialog_end_pos = line.find_first_of('~');
             auto dialog = line.substr(dialog_start_pos, dialog_end_pos - dialog_start_pos);
 
@@ -241,14 +249,20 @@ void azoya::Npc_parser::Parse_line(std::string_view line)
             new_node.next_node_mode = Node_mode::DIALOG;
 
             auto id_start_pos = line.find_first_of('?') + 1;
-            auto id_end_pos = line.find_first_of('?', id_start_pos);
+            auto id_end_pos = line.find_first_of(':', id_start_pos);
 
             auto id = line.substr(id_start_pos, id_end_pos - id_start_pos);
             std::clog << "Input ID: " << id << '\n';
 
             Convert_string_to_number(id, current_id, "Dialog id");
 
-            auto option_1_start_pos = line.find_first_not_of("? ", id_end_pos);
+            auto face_id_start_pos = line.find_first_not_of(": ", id_end_pos);
+            auto face_id_end_pos = line.find_first_of("?", face_id_start_pos);
+
+            auto face_id = line.substr(face_id_start_pos, face_id_end_pos - face_id_start_pos);
+            Convert_string_to_number(face_id, new_node.sprite_variant_id, "Sprite variant");
+
+            auto option_1_start_pos = line.find_first_not_of("? ", face_id_end_pos);
             auto option_1_end_pos = line.find_first_of('~', option_1_start_pos);
             auto option_1 = line.substr(option_1_start_pos, option_1_end_pos - option_1_start_pos);
 
@@ -266,7 +280,6 @@ void azoya::Npc_parser::Parse_line(std::string_view line)
             uint32_t result_1{};
             Convert_string_to_number(result_1_str, result_1, "Result 1");
 
-            std::clog << "Result 1: " << result_1_str << " | ";
 
             auto result_2_start_pos = line.find_first_not_of("^ ", result_1_end_pos);
             auto result_2_end_pos = line.find_first_of(" ", result_2_start_pos);

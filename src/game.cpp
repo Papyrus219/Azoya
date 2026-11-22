@@ -24,10 +24,20 @@ void azoya::Game::Setup()
 
     test_npc = Npc::parser.Parse_npc_config_file("../../../data/Piotrek_Gola.pgconf");
 
-    if(!test_npc.texture.loadFromFile("../../../img/button.png"))
+    if(!main_menu_bg_texture.loadFromFile("../../../img/main_menu.png"))
     {
-        std::cerr << "DOĆ KROTSET!\n";
+        std::cerr << "MOTYLA NOGA!\n";
     }
+
+    main_menu_bg_sprite.setTexture(main_menu_bg_texture, true);
+
+    if(!start_button_texture.loadFromFile("../../../img/start_button.png"))
+    {
+        std::cerr << "A NIECH MIE KULE BIJĄ!\n";
+    }
+
+    start_button_sprite.setTexture(start_button_texture, true);
+    start_button_sprite.setPosition( {560, 700} );
 
     if(!background_texture.loadFromFile("../../../img/background.png"))
     {
@@ -36,7 +46,6 @@ void azoya::Game::Setup()
 
     background_sprite.setTexture(background_texture, true);
 
-    test_npc.sprite.setTexture(test_npc.texture, true);
     test_npc.sprite.setPosition({900, 500});
 
     test_npc.dialog_box.Set_size( {1680, 240} );
@@ -60,9 +69,104 @@ void azoya::Game::Start()
 
 void azoya::Game::Update()
 {
+    switch(game_state)
+    {
+        case Game_state::MAIN_MENU:
+            Update_main_menu();
+            break;
+        case Game_state::GAME:
+            Update_game();
+            break;
+        case Game_state::ENDING:
+            Update_ending();
+            break;
+    }
+
+    while(auto event = window.pollEvent())
+    {
+        switch(game_state)
+        {
+            case Game_state::MAIN_MENU:
+                React_to_event_main_menu( *event );
+                break;
+            case Game_state::GAME:
+                React_to_event_game( *event );
+                break;
+            case Game_state::ENDING:
+                React_to_event_ending( *event );
+                break;
+        }
+
+        if(event->is<sf::Event::Closed>())
+        {
+            std::cout << "Sayonara!\n";
+            window.close();
+        }
+    }
+}
+
+void azoya::Game::Render()
+{
+    window.clear();
+
+    switch(game_state)
+    {
+        case Game_state::MAIN_MENU:
+            Render_main_menu();
+            break;
+        case Game_state::GAME:
+            Render_game();
+            break;
+        case Game_state::ENDING:
+            Render_ending();
+            break;
+    }
+
+    window.display();
+}
+
+void azoya::Game::Update_main_menu()
+{
     auto raw_pos = sf::Mouse::getPosition( window );
     auto mouse_pos = window.mapPixelToCoords( raw_pos );
 
+    if(start_button_sprite.getGlobalBounds().contains(mouse_pos))
+    {
+        start_button_sprite.setColor( {100, 100, 100} );
+    }
+    else
+    {
+        start_button_sprite.setColor( {255, 255, 255} );
+    }
+}
+
+void azoya::Game::React_to_event_main_menu(const sf::Event & event)
+{
+    if(auto button_pressed = event.getIf<sf::Event::MouseButtonPressed>())
+    {
+        auto raw_pos = sf::Mouse::getPosition( window );
+        auto mouse_pos = window.mapPixelToCoords( raw_pos );
+
+        if(button_pressed->button == sf::Mouse::Button::Left)
+        {
+            if(start_button_sprite.getGlobalBounds().contains(mouse_pos))
+            {
+                game_state = Game_state::GAME;
+            }
+        }
+    }
+}
+
+void azoya::Game::Render_main_menu()
+{
+    window.draw( main_menu_bg_sprite );
+    window.draw( start_button_sprite );
+}
+
+void azoya::Game::Update_game()
+{
+    auto raw_pos = sf::Mouse::getPosition( window );
+    auto mouse_pos = window.mapPixelToCoords( raw_pos );
 
     if(current_npc)
     {
@@ -82,41 +186,33 @@ void azoya::Game::Update()
     }
 
     test_input_box.Update(mouse_pos);
+}
 
-    while(auto event = window.pollEvent())
+void azoya::Game::React_to_event_game(const sf::Event & event)
+{
+    if(auto button_pressed = event.getIf<sf::Event::MouseButtonPressed>())
     {
-        if(auto button_pressed = event->getIf<sf::Event::MouseButtonPressed>())
-        {
-            if(button_pressed->button == sf::Mouse::Button::Left)
-            {
-                if(current_npc)
-                {
-                    current_npc->Click( mouse_pos );
-                }
+        auto raw_pos = sf::Mouse::getPosition( window );
+        auto mouse_pos = window.mapPixelToCoords( raw_pos );
 
-                auto result = test_input_box.Click( mouse_pos );
-                if(result)
-                {
-                    std::clog << "CLick: " << result.value() << '\n';
-                }
-            }
-            else if(button_pressed->button == sf::Mouse::Button::Right)
-            {
-                test_box.Set_name("Kunegunda");
-            }
-        }
-        else if(event->is<sf::Event::Closed>())
+        if(button_pressed->button == sf::Mouse::Button::Left)
         {
-            std::cout << "Sayonara!\n";
-            window.close();
+            if(current_npc)
+            {
+                current_npc->Click( mouse_pos );
+            }
+
+            auto result = test_input_box.Click( mouse_pos );
+            if(result)
+            {
+                std::clog << "CLick: " << result.value() << '\n';
+            }
         }
     }
 }
 
-void azoya::Game::Render()
+void azoya::Game::Render_game()
 {
-    window.clear();
-
     window.draw( background_sprite );
 
     if(current_npc)
@@ -137,6 +233,20 @@ void azoya::Game::Render()
                 break;
         }
     }
-
-    window.display();
 }
+
+void azoya::Game::Update_ending()
+{
+
+}
+
+void azoya::Game::React_to_event_ending(const sf::Event& event)
+{
+
+}
+
+void azoya::Game::Render_ending()
+{
+
+}
+

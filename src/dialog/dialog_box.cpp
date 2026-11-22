@@ -208,7 +208,7 @@ void azoya::Dialog_box::draw(sf::RenderTarget & target, sf::RenderStates states)
 
 void azoya::Dialog_box::Unformat_text(uint32_t which)
 {
-    auto & text = dialogs_content[which];   // at() zamiast [] dla sprawdzenia zakresu
+    auto & text = dialogs_content[which];
 
     sf::String str = text.getString();
     str.replace("\n", " ");

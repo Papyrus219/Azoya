@@ -15,8 +15,28 @@ public:
     void Start();
 
 private:
+    enum class Game_state
+    {
+        MAIN_MENU,
+        GAME,
+        ENDING,
+    } game_state{};
+
     void Render();
     void Update();
+
+    void Render_main_menu();
+    void Render_game();
+    void Render_ending();
+
+    void Update_main_menu();
+    void React_to_event_main_menu(const sf::Event & event);
+
+    void Update_game();
+    void React_to_event_game(const sf::Event & event);
+
+    void Update_ending();
+    void React_to_event_ending(const sf::Event & event);
 
     sf::RenderWindow window{};
 
@@ -35,6 +55,12 @@ private:
 
     sf::Texture button_texture{};
     sf::Sprite button_sprite{ button_texture };
+
+    sf::Texture main_menu_bg_texture{};
+    sf::Sprite main_menu_bg_sprite{ main_menu_bg_texture };
+
+    sf::Texture start_button_texture{};
+    sf::Sprite start_button_sprite{ start_button_texture };
 
     sf::Texture background_texture{};
     sf::Sprite background_sprite{background_texture};

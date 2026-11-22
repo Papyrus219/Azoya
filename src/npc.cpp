@@ -39,9 +39,11 @@ void azoya::Npc::Click(sf::Vector2f mouse_pos)
                     break;
                 case Node_mode::DIALOG:
                     dialog_box.Set_dialog_option( dialog_graf[ current_dialog_node_id ].dialog_text_id );
+                    sprite.setTextureRect( tex_changer.Get_variant_rect( dialog_graf[current_dialog_node_id].sprite_variant_id ) );
                     break;
                 case Node_mode::INPUT:
                     input_box.Set_option_pack( dialog_graf[current_dialog_node_id].dialog_text_id );
+                    sprite.setTextureRect( tex_changer.Get_variant_rect( dialog_graf[current_dialog_node_id].sprite_variant_id ) );
                     break;
                 case Node_mode::FUNCTION:
                     break;
@@ -57,6 +59,7 @@ void azoya::Npc::Click(sf::Vector2f mouse_pos)
                 current_dialog_node_id = result.value();
 
                 dialog_box.Set_dialog_option( dialog_graf[current_dialog_node_id].dialog_text_id );
+                sprite.setTextureRect( tex_changer.Get_variant_rect( dialog_graf[current_dialog_node_id].sprite_variant_id ) );
             }
 
             break;
