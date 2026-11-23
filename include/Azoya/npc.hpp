@@ -24,8 +24,12 @@ public:
 
     Dialog_box dialog_box{};
     Input_box input_box{};
-    sf::Sprite sprite{texture};
-    sf::Texture texture{};
+
+    sf::Texture dialog_texture{};
+    sf::Sprite dialog_sprite{dialog_texture};
+
+    static sf::Texture world_texture;
+    sf::Sprite world_sprite{world_texture};
 
 private:
     std::string_view Node_mode_to_string(Node_mode mode);

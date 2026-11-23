@@ -17,7 +17,8 @@ private:
         NONE,
         NAME_DECLARATION,
         FONT_PATH,
-        TEXTURE_PATH,
+        WORLD_TEXTURE_RECT,
+        DIALOG_TEXTURE_PATH,
         VARIANT_SIZE,
         DIALOG_BOX_BACKGROUND_COLOR,
         DIALOG_BOX_BORDER_COLOR,
@@ -42,6 +43,7 @@ private:
     sf::Color Parse_color(std::string_view line);
 
     Npc currently_parsed_npc{};
+    sf::IntRect world_tex_rect{};
 
     std::string_view name{};
     uint32_t current_id{};

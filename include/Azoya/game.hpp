@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <Azoya/npc.hpp>
+#include <array>
 
 namespace azoya
 {
@@ -50,8 +51,16 @@ private:
 
     Dialog_box * current_dialog_box{};
 
-    Npc test_npc{};
-    Npc * current_npc;
+    Npc * current_talking_npc;
+    std::array<Npc *, 4> active_npcs{};
+
+    Npc cowboy_npc{};
+    Npc mother_npc{};
+    Npc super_fan_npc{};
+    Npc sus_npc{};
+    Npc superstar_npc{};
+    Npc tourist_npc{};
+    Npc elder_npc{};
 
     sf::Texture button_texture{};
     sf::Sprite button_sprite{ button_texture };
