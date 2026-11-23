@@ -91,5 +91,7 @@ std::string_view azoya::Npc::Node_mode_to_string(Node_mode mode)
         case Node_mode::FUNCTION:
             return "FUNCTION";
     }
+
+    return "";
 }
 

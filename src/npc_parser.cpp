@@ -321,7 +321,8 @@ void azoya::Npc_parser::Parse_line(std::string_view line)
 
             std::clog << "Result 2: " << result_2_str << "\n";
 
-            new_node.dialog_text_id = currently_parsed_npc.input_box.Add_option_pack(option_1, option_2, result_1, result_2);
+            new_node.dialog_text_id = currently_parsed_npc.input_box.Add_option_pack({option_1, option_2}, {result_1, result_2});
+            currently_parsed_npc.input_box.hover_type = Input_box::Hover_type::LIGHT;
 
             currently_parsed_npc.dialog_graf.push_back(new_node);
             line_mode = Line_mode::NONE;

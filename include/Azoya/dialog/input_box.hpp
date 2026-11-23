@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <optional>
+#include <initializer_list>
 
 namespace azoya
 {
@@ -19,7 +20,7 @@ public:
     void Init(const sf::Font & font, sf::Color background_color, sf::Color border_color, Hover_type hover_type = Hover_type::LIGHT);
     void Update(sf::Vector2f mouse_pos);
 
-    uint32_t Add_option_pack(const sf::String & text_1, const sf::String & text_2, uint32_t result_1, uint32_t result_2);
+    uint32_t Add_option_pack(std::initializer_list<std::string_view> texts, std::initializer_list<uint32_t> results);
     void Set_option_pack(uint32_t pack_id);
 
     std::optional<uint32_t> Click(sf::Vector2f mouse_pos);
@@ -31,13 +32,9 @@ public:
 private:
     struct Option_pack
     {
-        Option_pack(const sf::Font & font);
-
-        sf::Text text_1;
-        sf::Text text_2;
-
-        uint32_t result_1{};
-        uint32_t result_2{};
+        std::vector<sf::Text> texts{};
+        std::vector<uint32_t> results{};
+        std::vector<sf::RectangleShape> boxes{};
     };
 
     virtual void draw(sf::RenderTarget & target, sf::RenderStates strates) const override;
@@ -49,10 +46,9 @@ private:
     uint32_t current_option_id{};
 
     sf::RectangleShape main_box{};
-    sf::RectangleShape option_1_box{};
-    sf::RectangleShape option_2_box{};
 
     sf::Color background_color{};
+    sf::Color border_color{};
     sf::Color text_color{};
 };
 

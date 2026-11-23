@@ -16,12 +16,19 @@ public:
     void Start();
 
 private:
-    enum class Game_state
+    enum class Program_state
     {
         MAIN_MENU,
         GAME,
         ENDING,
-    } game_state{};
+    } program_state{};
+
+    enum class Game_state
+    {
+        NONE,
+        DIALOG,
+        SUITCASE,
+    } game_state;
 
     void Render();
     void Update();
@@ -47,8 +54,6 @@ private:
     sf::Font font{};
     Dialog_box test_box{};
 
-    Input_box test_input_box{};
-
     Dialog_box * current_dialog_box{};
 
     Npc * current_talking_npc;
@@ -73,6 +78,14 @@ private:
 
     sf::Texture background_texture{};
     sf::Sprite background_sprite{background_texture};
+
+    sf::Texture suitcase_icons_textures{};
+    sf::Sprite suitcase_sprite{suitcase_icons_textures};
+
+    sf::Texture cowboy_suitcase_texture{};
+    sf::Sprite cowboy_suitcase_sprite{cowboy_suitcase_texture};
+
+    Input_box suitcase_input_box{};
 
     sf::SoundBuffer sound_bufer{};
     sf::Sound sound{ sound_bufer };
