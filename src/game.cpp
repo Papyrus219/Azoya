@@ -115,7 +115,7 @@ void azoya::Game::Setup()
     cowboy_suitcase_sprite.setPosition( {300, -10} );
 
     suitcase_input_box.Init(font, sf::Color{200, 150, 0}, sf::Color::Yellow);
-    suitcase_input_box.Set_option_pack( suitcase_input_box.Add_option_pack({"Lasso", "Siodlo", "Album", "Koszula"}, {7, 9, 2, 1}) );
+    suitcase_input_box.Set_option_pack( suitcase_input_box.Add_option_pack({"Lasso", "Siodlo", "Album", "Koszula"}, {1, 2, 3, 4}) );
 }
 
 void azoya::Game::Start()
