@@ -23,7 +23,8 @@ set(GAME_SRC ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp
              ${CMAKE_CURRENT_LIST_DIR}/src/game.cpp
              ${CMAKE_CURRENT_LIST_DIR}/src/npc.cpp
              ${CMAKE_CURRENT_LIST_DIR}/src/texture_changer.cpp
-             ${CMAKE_CURRENT_LIST_DIR}/src/npc_parser.cpp)
+             ${CMAKE_CURRENT_LIST_DIR}/src/npc_parser.cpp
+             ${CMAKE_CURRENT_LIST_DIR}/src/suitcase.cpp)
 
 add_executable(game ${GAME_SRC} ${DIALOG_SRC})
 target_include_directories(game PUBLIC include/)

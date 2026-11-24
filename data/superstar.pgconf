@@ -1,7 +1,7 @@
-{Stefan}
-../../../fonts/Kotek.otf
+400 0 200 800
 
-200 0 200 800
+{Gal anonim}
+../../../fonts/Kotek.otf
 
 #0-Happy 1-Sad 2-Angry 3-Question
 ../../../img/anonim.png
@@ -28,6 +28,7 @@
 
 @@@@@
 
-?1: 3? Tak ~ Nie ~ 4 ^ 3
-
-
+?1: 3?
+~4~ Tak
+~3~ Nie
+?

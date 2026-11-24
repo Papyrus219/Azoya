@@ -2,9 +2,11 @@
 
 using namespace azoya;
 
-void azoya::Dialog_parser::Start_parsing(std::string_view buffor, size_t pos, const Dialog_parser_pack & pack)
+void azoya::Dialog_parser::Start_parsing(std::string_view buffor, size_t & pos, const Dialog_parser_pack & pack)
 {
     assert(pack.dialog_box && pack.input_box && pack.graf && pack.texture && pack.font && pack.sprite && pack.tex_changer && pack.input_nodes_offset);
+
+    line_mode = Line_mode::NAME_DECLARATION;
 
     while(pos < buffor.size())
     {
@@ -179,9 +181,16 @@ void azoya::Dialog_parser::Parse_line(std::string_view line, const Dialog_parser
             auto dialog_end_pos = line.find_first_of('~');
             auto dialog = line.substr(dialog_start_pos, dialog_end_pos - dialog_start_pos);
 
-            std::clog << "Dialog: " << dialog << '\n';
+            if(dialog != "")
+            {
+                std::clog << "Dialog: " << dialog << '\n';
 
-            new_node.dialog_text_id = pack.dialog_box->Add_dialog_option(dialog);
+                new_node.dialog_text_id = pack.dialog_box->Add_dialog_option(dialog);
+            }
+            else
+            {
+                new_node.node_mode = Node_mode::NONE;
+            }
 
             auto next_id_start_pos = line.find_first_of('~') + 1;
             auto next_id_end_pos = line.find_last_of('~');
@@ -239,9 +248,7 @@ void azoya::Dialog_parser::Parse_line(std::string_view line, const Dialog_parser
             auto face_id = line.substr(face_id_start_pos, face_id_end_pos - face_id_start_pos);
             Convert_string_to_number(face_id, new_node.sprite_variant_id, "Sprite variant");
 
-            new_node.dialog_text_id = pack.input_box->Add_option_pack({option_1, option_2}, {result_1, result_2});
             pack.input_box->hover_type = Input_box::Hover_type::LIGHT;
-
             pack.graf->push_back(new_node);
             line_mode = Line_mode::INPUT_OPTION;
             break;
@@ -250,21 +257,59 @@ void azoya::Dialog_parser::Parse_line(std::string_view line, const Dialog_parser
         {
             if(line[0] == '?')
             {
-                pack.input_box->Add_option_pack(tmp_input_texts, tmp_input_results);
+                pack.graf->back().dialog_text_id = pack.input_box->Add_option_pack(tmp_input_texts, tmp_input_results);
+                tmp_input_texts.clear();
+                tmp_input_results.clear();
+
                 line_mode = Line_mode::NONE;
                 break;
             }
 
             auto next_id_start_pos = line.find_first_of('~') + 1;
             auto next_id_end_pos = line.find_first_of('~', next_id_start_pos);
-            auto next_id = line.substr(next_id_start_pos, next_id_end_pos);
+            auto next_id_str = line.substr(next_id_start_pos, next_id_end_pos);
 
+            next_id_str = line.substr(next_id_start_pos, next_id_end_pos - next_id_start_pos);
+            uint32_t next_id{};
 
+            Convert_string_to_number(next_id_str, next_id, "Next id");
+
+            auto text_start_pos = line.find_first_not_of(" ~", next_id_end_pos);
+            auto text = line.substr(text_start_pos);
+
+            tmp_input_results.push_back( next_id );
+            tmp_input_texts.push_back( text );
 
             break;
         }
     }
 }
 
+sf::Color azoya::Dialog_parser::Parse_color(std::string_view line)
+{
+    sf::Color result{};
+
+    auto red_start_pos = line.find_first_not_of(" ");
+    auto red_end_pos = line.find_first_of(" ", red_start_pos);
+    auto red_str = line.substr(red_start_pos, red_end_pos - red_start_pos);
+
+    Convert_string_to_number(red_str, result.r, "Red");
+
+    auto green_start_pos = line.find_first_not_of(" ", red_end_pos);
+    auto green_end_pos = line.find_first_of(" ", green_start_pos);;
+    auto green_str = line.substr(green_start_pos, green_end_pos - green_start_pos);
+
+    Convert_string_to_number(green_str, result.g, "Green");
+
+    auto blue_start_pos = line.find_first_not_of(" ", green_end_pos);
+    auto blue_end_pos = line.find_first_of(" ", blue_start_pos);;
+    auto blue_str = line.substr(blue_start_pos, blue_end_pos - blue_start_pos);
+
+    Convert_string_to_number(blue_str, result.b, "Blue");
+
+    std::clog << "COLOR: " << static_cast<uint32_t>(result.r) << " " << static_cast<uint32_t>(result.g) << " " << static_cast<uint32_t>(result.b) << '\n';
+
+    return result;
+}
 
 

@@ -25,6 +25,11 @@ void azoya::Game::Setup()
 
     sound.setBuffer( sound_bufer );
 
+    if(!Npc::world_texture.loadFromFile("../../../img/world_sprites.png"))
+    {
+        std::cerr << "ERROR::GAME::Failed to load world npc texture.\n";
+    }
+
     cowboy_npc = Npc::parser.Parse_npc_config_file("../../../data/cowboy.pgconf");
     mother_npc = Npc::parser.Parse_npc_config_file("../../../data/mother.pgconf");
     superstar_npc = Npc::parser.Parse_npc_config_file("../../../data/superstar.pgconf");
@@ -104,18 +109,19 @@ void azoya::Game::Setup()
     suitcase_sprite.setScale( {0.2, 0.2} );
     suitcase_sprite.setPosition( {20, 880} );
 
-    if(!cowboy_suitcase_texture.loadFromFile("../../../img/cowboy_suitcase.png"))
+    suitcase.Init("../../../data/cowboy.scconf");
+
+    if(!suitcase.suitcase_texture.loadFromFile("../../../img/cowboy_suitcase.png"))
     {
         std::cerr << "ERROR::GAME::Failed to load cowboy suitcase texture.\n";
     }
 
-    cowboy_suitcase_sprite.setTexture(cowboy_suitcase_texture, true);
-    cowboy_suitcase_sprite.setPosition( {300, -10} );
-
-    suitcase_input_box.Init(font, sf::Color{200, 150, 0}, sf::Color::Yellow);
-    suitcase_input_box.Set_option_pack( suitcase_input_box.Add_option_pack({"Lasso", "Siodlo", "Album", "Koszula"}, {1, 2, 3, 4}) );
-
-
+    suitcase.suitcase_sprite.setTexture(suitcase.suitcase_texture, true);
+    suitcase.suitcase_sprite.setPosition( {300, -10} );
+    suitcase.dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
+    suitcase.dialog_box.Set_size( {1680, 240} );
+    suitcase.dialog_box.Set_position( {120, 832} );
+    suitcase.item_sprite.setPosition( {600, 200} );
 }
 
 void azoya::Game::Start()
@@ -258,8 +264,20 @@ void azoya::Game::Update_game()
         }
         case Game_state::SUITCASE:
         {
-            suitcase_input_box.Update( mouse_pos );
-            break;
+            switch(suitcase.Get_mode())
+            {
+                case Node_mode::NONE:
+                    game_state = Game_state::NONE;
+                    break;
+                case Node_mode::DIALOG:
+                    suitcase.dialog_box.Update();
+                    break;
+                case Node_mode::INPUT:
+                    suitcase.input_box.Update( mouse_pos );
+                    break;
+                case Node_mode::FUNCTION:
+                    break;
+            }
         }
     }
 }
@@ -277,6 +295,8 @@ void azoya::Game::React_to_event_game(const sf::Event & event)
             {
                 if(button_pressed->button == sf::Mouse::Button::Left)
                 {
+                    std::clog << mouse_pos.x << " " << mouse_pos.y << '\n';
+
                     for(auto npc_ptr : active_npcs)
                     {
                         if(npc_ptr)
@@ -293,6 +313,7 @@ void azoya::Game::React_to_event_game(const sf::Event & event)
                     if(suitcase_sprite.getGlobalBounds().contains(mouse_pos))
                     {
                         game_state = Game_state::SUITCASE;
+                        suitcase.Click(mouse_pos);
                     }
                 }
             }
@@ -314,7 +335,13 @@ void azoya::Game::React_to_event_game(const sf::Event & event)
         }
         case Game_state::SUITCASE:
         {
-            suitcase_input_box.Click( mouse_pos );
+            if(auto button_pressed = event.getIf<sf::Event::MouseButtonPressed>())
+            {
+                if(button_pressed->button == sf::Mouse::Button::Left)
+                {
+                    suitcase.Click( mouse_pos );
+                }
+            }
             break;
         }
     }
@@ -365,8 +392,23 @@ void azoya::Game::Render_game()
         }
         case Game_state::SUITCASE:
         {
-            window.draw( cowboy_suitcase_sprite );
-            window.draw( suitcase_input_box );
+            window.draw( suitcase.suitcase_sprite );
+            window.draw( suitcase.item_sprite );
+
+            switch(suitcase.Get_mode())
+            {
+                case Node_mode::NONE:
+                    break;
+                case Node_mode::DIALOG:
+                    window.draw( suitcase.dialog_box );
+                    break;
+                case Node_mode::INPUT:
+                    window.draw( suitcase.input_box );
+                    break;
+                case Node_mode::FUNCTION:
+                    break;
+            }
+
             break;
         }
     }

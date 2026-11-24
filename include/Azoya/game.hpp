@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <Azoya/npc.hpp>
+#include <Azoya/suitcase.hpp>
 #include <array>
 
 namespace azoya
@@ -82,10 +83,9 @@ private:
     sf::Texture suitcase_icons_textures{};
     sf::Sprite suitcase_sprite{suitcase_icons_textures};
 
-    sf::Texture cowboy_suitcase_texture{};
-    sf::Sprite cowboy_suitcase_sprite{cowboy_suitcase_texture};
+    Suitcase suitcase{};
 
-    Input_box suitcase_input_box{};
+    sf::Texture npc_world_texture{};
 
     sf::SoundBuffer sound_bufer{};
     sf::Sound sound{ sound_bufer };

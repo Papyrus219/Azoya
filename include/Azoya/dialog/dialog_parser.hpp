@@ -27,7 +27,7 @@ struct Dialog_parser_pack
 class Dialog_parser
 {
 public:
-    void Start_parsing(std::string_view buffor, size_t pos, const Dialog_parser_pack & pack);
+    void Start_parsing(std::string_view buffor, size_t & pos, const Dialog_parser_pack & pack);
 
 private:
     void Parse_line(std::string_view line, const Dialog_parser_pack & pack);

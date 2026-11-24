@@ -1,10 +1,7 @@
 #ifndef AZOYA_NPC_HPP
 #define AZOYA_NPC_HPP
 
-#include <Azoya/dialog/dialog_box.hpp>
-#include <Azoya/dialog/input_box.hpp>
-#include <Azoya/texture_changer.hpp>
-#include <Azoya/dialog/dialog_node.hpp>
+#include <Azoya/dialogs.hpp>
 #include <SFML/Graphics.hpp>
 #include <vector>
 

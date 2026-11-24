@@ -2,6 +2,7 @@
 #define AZOYA_NPC_PARSER_HPP
 
 #include <Azoya/npc.hpp>
+#include <Azoya/dialog/dialog_parser.hpp>
 #include <iostream>
 #include <filesystem>
 #include <fstream>
@@ -14,21 +15,8 @@ class Npc_parser
 private:
     enum class Line_mode
     {
-        NONE,
-        NAME_DECLARATION,
-        FONT_PATH,
         WORLD_TEXTURE_RECT,
-        DIALOG_TEXTURE_PATH,
-        VARIANT_SIZE,
-        DIALOG_BOX_BACKGROUND_COLOR,
-        DIALOG_BOX_BORDER_COLOR,
-        DIALOG_BOX_TEXT_COLOR,
-        INPUT_BOX_BACKGROUND_COLOR,
-        INPUT_BOX_BORDER_COLOR,
-        INPUT_BOX_TEXT_COLOR,
-        DIALOG_DECLARATION,
-        END_OF_DIALOGS,
-        INPUT_DECLARATION,
+        DIALOG_START,
     } line_mode;
 
 public:
@@ -39,6 +27,8 @@ public:
 
 private:
     void Parse_line(std::string_view line);
+
+    Dialog_parser dialog_parser{};
 
     Npc currently_parsed_npc{};
     sf::IntRect world_tex_rect{};

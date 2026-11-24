@@ -1,22 +1,46 @@
-[1] Co chcesz zbadac w walizce? ~?1~
-[2] Dlugi sznurek... ~?1~
-[3] Dla konia! ~?1~
-[4] Ale badziewny wzór... ~?1~
-[5] Stary album. ~6~
-[6] Czy chcesz go otworzyc? ~?2~
+{}
+../../../fonts/Kotek.otf
 
-[7] Chyba wiem kto moze byc wlascicielem tej walizki... ~8~
-[8] ~9~
-[9] Chyba juz wiem kto jest wlascicielem tej walizki. ~8~
+#0-NOTHING 1-SADDLE 2-ALBUM 3-SHIRT 4-LASSO 5-REVEAL
+../../../img/cowboy_items.png
+#Texture variant size
+550 680
 
-?1?
-~2~ ^ Lasso
-~3~ ^ Siodlo
-~4~ ^ Koszula
-~5~ ^ Album
+#Dialog background color
+200 150 0
+#Dialog border color
+255 255 0
+#Dialog text color
+0 0 0
+
+#Input background color
+200 150 0
+#Input border color
+255 255 0
+#Input text color
+0 0 0
+
+[1: 0] Co chcesz zbadac w walizce? ~?1~
+[2: 4] Dlugi sznurek... ~?1~
+[3: 1] Dla konia! ~?1~
+[4: 3] Ale badziewny wzór... ~?1~
+[5: 2] Stary album. ~6~
+[6: 2] Czy chcesz go otworzyc? ~?2~
+
+[7: 5] Chyba wiem kto moze byc wlascicielem tej walizki... ~8~
+[8: 0] ~9~
+[9: 0] Chyba juz wiem kto jest wlascicielem tej walizki. ~8~
+
+@@@@@
+
+?1: 0?
+~2~ Lasso
+~3~ Siodlo
+~4~ Koszula
+~5~ Album
 ?
 
-?2?
-~7~ ^ Tak
-~8~ ^ Nie
+?2: 2?
+~7~ Tak
+~1~ Nie
 ?
