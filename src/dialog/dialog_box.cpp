@@ -3,7 +3,7 @@
 
 using namespace azoya;
 
-void azoya::Dialog_box::Init(const sf::String & name, const sf::Font & font, sf::Color background_color, sf::Color border_color, std::optional<std::reference_wrapper<sf::Sound>> letter_sound)
+void azoya::Dialog_box::Init(const sf::String & name, const sf::Font & font, sf::Color background_color, sf::Color border_color, bool is_name_enabled, std::optional<std::reference_wrapper<sf::Sound>> letter_sound)
 {
     this->font = font;
 
@@ -38,6 +38,8 @@ void azoya::Dialog_box::Init(const sf::String & name, const sf::Font & font, sf:
     {
         this->letter_sound = letter_sound;
     }
+
+    this->is_name_enabled = is_name_enabled;
 
     Set_text_speed( Text_speed::NORMAL );
 }
@@ -193,8 +195,11 @@ void azoya::Dialog_box::draw(sf::RenderTarget & target, sf::RenderStates states)
 {
     target.draw(box, states);
 
-    target.draw(name_box, states);
-    target.draw(name, states);
+    if(is_name_enabled)
+    {
+        target.draw(name_box, states);
+        target.draw(name, states);
+    }
 
     if(is_animation_running)
     {

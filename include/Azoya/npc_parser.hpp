@@ -40,8 +40,6 @@ public:
 private:
     void Parse_line(std::string_view line);
 
-    sf::Color Parse_color(std::string_view line);
-
     Npc currently_parsed_npc{};
     sf::IntRect world_tex_rect{};
 

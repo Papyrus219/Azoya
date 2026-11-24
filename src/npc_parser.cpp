@@ -91,7 +91,6 @@ void azoya::Npc_parser::Parse_line(std::string_view line)
                 std::cerr << "ERROR::NPC_PARSER::Failed to open font: " << line << '\n';
             }
 
-
             currently_parsed_npc.dialog_box.Init(name, currently_parsed_npc.font, sf::Color::Cyan, sf::Color::Green);
             currently_parsed_npc.input_box.Init(currently_parsed_npc.font, sf::Color::Cyan, sf::Color::Green);
 

@@ -11,21 +11,19 @@ void azoya::Game::Setup()
 
     if(!Npc::world_texture.loadFromFile("../../../img/world_sprites.png"))
     {
-        std::cerr << "Ajajaj!\n";
+        std::cerr << "ERROR::GAME::Failed to load world sprite textures.\n";
     }
 
     if(!font.openFromFile( "../../../fonts/Kotek.otf" ) )
     {
-        std::cerr << "KUŹWA MAĆ!\n";
+        std::cerr << "ERROR::GAME::Failed to load font.\n";
     }
     if(!sound_bufer.loadFromFile("../../../audio/litera.wav"))
     {
-        std::cerr << "KURKA WODNA!\n";
+        std::cerr << "ERROR::GAME::Failed to load letter sound.\n";
     }
 
     sound.setBuffer( sound_bufer );
-
-    test_box.Init("Adrian", font, sf::Color::Green, sf::Color::Red, sound);
 
     cowboy_npc = Npc::parser.Parse_npc_config_file("../../../data/cowboy.pgconf");
     mother_npc = Npc::parser.Parse_npc_config_file("../../../data/mother.pgconf");
@@ -44,14 +42,14 @@ void azoya::Game::Setup()
 
     if(!main_menu_bg_texture.loadFromFile("../../../img/main_menu.png"))
     {
-        std::cerr << "MOTYLA NOGA!\n";
+        std::cerr << "ERROR::GAME::Failed to load main menu background texture.\n";
     }
 
     main_menu_bg_sprite.setTexture(main_menu_bg_texture, true);
 
     if(!start_button_texture.loadFromFile("../../../img/start_button.png"))
     {
-        std::cerr << "A NIECH MIE KULE BIJĄ!\n";
+        std::cerr << "ERROR::GAME::Failed to load start button texture.\n";
     }
 
     start_button_sprite.setTexture(start_button_texture, true);
@@ -59,7 +57,7 @@ void azoya::Game::Setup()
 
     if(!background_texture.loadFromFile("../../../img/background.png"))
     {
-        std::cerr << "NOSZ KURNA!\n";
+        std::cerr << "ERROR::GAME::Failed to load game background texture.\n";
     }
 
     background_sprite.setTexture(background_texture, true);
@@ -99,7 +97,7 @@ void azoya::Game::Setup()
 
     if(!suitcase_icons_textures.loadFromFile("../../../img/suitcase_icons.png"))
     {
-        std::cerr << "KURKA WODNA!\n";
+        std::cerr << "ERROR::GAME::Failed to load suitcase icons textures.\n";
     }
 
     suitcase_sprite.setTexture(suitcase_icons_textures, true);
@@ -108,7 +106,7 @@ void azoya::Game::Setup()
 
     if(!cowboy_suitcase_texture.loadFromFile("../../../img/cowboy_suitcase.png"))
     {
-        std::cerr << "HULAJNOGA!\n";
+        std::cerr << "ERROR::GAME::Failed to load cowboy suitcase texture.\n";
     }
 
     cowboy_suitcase_sprite.setTexture(cowboy_suitcase_texture, true);
@@ -116,6 +114,8 @@ void azoya::Game::Setup()
 
     suitcase_input_box.Init(font, sf::Color{200, 150, 0}, sf::Color::Yellow);
     suitcase_input_box.Set_option_pack( suitcase_input_box.Add_option_pack({"Lasso", "Siodlo", "Album", "Koszula"}, {1, 2, 3, 4}) );
+
+
 }
 
 void azoya::Game::Start()

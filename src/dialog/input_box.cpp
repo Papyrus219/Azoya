@@ -39,6 +39,13 @@ void azoya::Input_box::Update(sf::Vector2f mouse_pos)
             {
                 box.setFillColor( background_color - sf::Color{50, 50, 50} );
             }
+
+            for(auto j{ options_packs[current_option_id].boxes.size() - 1 }; j > i; j--)
+            {
+                options_packs[current_option_id].boxes[j].setFillColor( background_color );
+            }
+
+            return;
         }
         else
         {
@@ -79,6 +86,42 @@ uint32_t azoya::Input_box::Add_option_pack(std::initializer_list<std::string_vie
         text.setFillColor(text_color);
 
         option_pack.results.push_back( results.begin()[i] );
+    }
+
+    return options_packs.size() - 1;
+}
+
+uint32_t azoya::Input_box::Add_option_pack(std::span<std::string_view> texts, std::span<uint32_t> results)
+{
+    assert(texts.size() == results.size());
+
+    sf::Vector2f box_size = {main_box.getSize().x, main_box.getSize().y / texts.size()};
+
+    options_packs.emplace_back();
+    auto & option_pack = options_packs.back();
+
+    sf::Vector2f next_box_offset{ main_box.getPosition() };
+    for(uint32_t i{}; i < texts.size(); i++)
+    {
+        option_pack.boxes.emplace_back();
+        auto & box = option_pack.boxes.back();
+
+        box.setSize(box_size);
+        box.setPosition(next_box_offset);
+        box.setFillColor(background_color);
+        box.setOutlineColor(border_color);
+        box.setOutlineThickness(8);
+
+        next_box_offset.y += box_size.y;
+
+        option_pack.texts.emplace_back(font);
+        auto & text = option_pack.texts.back();
+        text.setString( texts[i] );
+        text.setCharacterSize(35);
+        text.setPosition(( box.getPosition() + sf::Vector2f{5, 5} ));
+        text.setFillColor(text_color);
+
+        option_pack.results.push_back( results[i] );
     }
 
     return options_packs.size() - 1;

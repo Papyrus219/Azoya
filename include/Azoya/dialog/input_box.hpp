@@ -21,6 +21,8 @@ public:
     void Update(sf::Vector2f mouse_pos);
 
     uint32_t Add_option_pack(std::initializer_list<std::string_view> texts, std::initializer_list<uint32_t> results);
+    uint32_t Add_option_pack(std::span<std::string_view> texts, std::span<uint32_t> results);
+
     void Set_option_pack(uint32_t pack_id);
 
     std::optional<uint32_t> Click(sf::Vector2f mouse_pos);

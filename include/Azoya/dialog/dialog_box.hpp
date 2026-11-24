@@ -15,7 +15,7 @@ namespace azoya
 class Dialog_box : public sf::Drawable
 {
 public:
-    void Init(const sf::String & name, const sf::Font & font, sf::Color background_color, sf::Color border_color, std::optional<std::reference_wrapper<sf::Sound>> letter_sound = {});
+    void Init(const sf::String & name, const sf::Font & font, sf::Color background_color, sf::Color border_color, bool is_enable_name = true, std::optional<std::reference_wrapper<sf::Sound>> letter_sound = {});
 
     void Update();
 
@@ -45,6 +45,7 @@ private:
     uint32_t current_dialog_id{};
 
     bool is_animation_running{};
+    bool is_name_enabled{};
 
     sf::RectangleShape box{};
     sf::RectangleShape name_box{};

@@ -16,7 +16,8 @@ FetchContent_Declare(SFML
 FetchContent_MakeAvailable(SFML)
 
 set(DIALOG_SRC ${CMAKE_CURRENT_LIST_DIR}/src/dialog/dialog_box.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/src/dialog/input_box.cpp)
+               ${CMAKE_CURRENT_LIST_DIR}/src/dialog/input_box.cpp
+               ${CMAKE_CURRENT_LIST_DIR}/src/dialog/dialog_parser.cpp)
 
 set(GAME_SRC ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp
              ${CMAKE_CURRENT_LIST_DIR}/src/game.cpp
