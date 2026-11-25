@@ -1,6 +1,7 @@
 #ifndef AZOYA_DIALOG_PARSER_HPP
 #define AZOYA_DIALOG_PARSER_HPP
 
+#include <Azoya/dialog/dialog_manager.hpp>
 #include <Azoya/dialog/dialog_box.hpp>
 #include <Azoya/dialog/input_box.hpp>
 #include <Azoya/dialog/dialog_node.hpp>
@@ -12,30 +13,20 @@
 namespace azoya
 {
 
-struct Dialog_parser_pack
-{
-    Dialog_box * dialog_box{};
-    Input_box * input_box{};
-    std::vector<Dialog_node> * graf{};
-    sf::Font * font{};
-    sf::Texture * texture{};
-    sf::Sprite * sprite{};
-    Texture_changer * tex_changer{};
-    uint32_t * input_nodes_offset{};
-};
-
 class Dialog_parser
 {
 public:
-    void Start_parsing(std::string_view buffor, size_t & pos, const Dialog_parser_pack & pack);
+    Dialog_manager Parse(std::string_view buffor, size_t & pos);
 
 private:
-    void Parse_line(std::string_view line, const Dialog_parser_pack & pack);
+    void Parse_line(std::string_view line);
 
     sf::Color Parse_color(std::string_view line);
 
     template<typename T>
     void Convert_string_to_number(std::string_view str, T & var, std::string_view var_name = "NOT GIVEN");
+
+    Dialog_manager current_manager{};
 
     std::string_view name{};
     bool is_name{};
@@ -67,9 +58,11 @@ private:
         INPUT_BOX_BORDER_COLOR,
         INPUT_BOX_TEXT_COLOR,
         DIALOG_DECLARATION,
+        EVENT_BOOKMARK,
         END_OF_DIALOGS,
         INPUT_DECLARATION,
         INPUT_OPTION,
+        EVENT_DECLARATION,
     } line_mode{};
 };
 

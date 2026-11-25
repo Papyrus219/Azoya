@@ -82,7 +82,7 @@ uint32_t azoya::Input_box::Add_option_pack(std::initializer_list<std::string_vie
         auto & text = option_pack.texts.back();
         text.setString( texts.begin()[i] );
         text.setCharacterSize(35);
-        text.setPosition(( box.getPosition() + sf::Vector2f{5, 5} ));
+        text.setPosition(( box.getPosition() + sf::Vector2f{5, 0} ));
         text.setFillColor(text_color);
 
         option_pack.results.push_back( results.begin()[i] );
@@ -118,7 +118,7 @@ uint32_t azoya::Input_box::Add_option_pack(std::span<std::string_view> texts, st
         auto & text = option_pack.texts.back();
         text.setString( texts[i] );
         text.setCharacterSize(35);
-        text.setPosition(( box.getPosition() + sf::Vector2f{5, 5} ));
+        text.setPosition(( box.getPosition() + sf::Vector2f{5, -5} ));
         text.setFillColor(text_color);
 
         option_pack.results.push_back( results[i] );

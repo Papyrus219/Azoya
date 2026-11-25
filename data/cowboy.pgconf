@@ -26,9 +26,20 @@
 [3: 2] Nie odzywaj się do mnie. ~0~
 [4: 0] Open source! ~0~
 
+$Cowboy check$ ~5~
+[5: 2] ~6~
+[6: 2] Czy ty grzebales mi w walizce? ~?2~
+[7: 2] Dzwonie na policje! ~8~
+[8: 0] ~7~
+
 @@@@@
 
 ?1: 3?
 ~4~ Tak
 ~3~ Nie
+?
+
+?2: 2?
+~7~ Tak
+~7~ Nie
 ?

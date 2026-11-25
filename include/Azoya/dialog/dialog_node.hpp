@@ -22,6 +22,7 @@ struct Dialog_node
 
     Node_mode next_node_mode{};
     uint32_t next_node_id{};
+    std::optional<uint32_t> event_id{};
 };
 
 }

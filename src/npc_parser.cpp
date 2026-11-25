@@ -4,14 +4,6 @@ azoya::Npc azoya::Npc_parser::Parse_npc_config_file(const std::filesystem::path 
 {
     line_mode = Line_mode::WORLD_TEXTURE_RECT;
 
-    currently_parsed_npc.dialog_graf.clear();
-    currently_parsed_npc.dialog_graf.push_back({});
-    currently_parsed_npc.dialog_graf.back().node_mode = Node_mode::NONE;
-    currently_parsed_npc.dialog_graf.back().next_node_mode = Node_mode::DIALOG;
-
-    currently_parsed_npc.dialog_graf.back().next_node_id = 1;
-
-    currently_parsed_npc.current_dialog_node_id = 0;
     line_count = 0;
 
     std::ifstream file{path};
@@ -46,9 +38,7 @@ azoya::Npc azoya::Npc_parser::Parse_npc_config_file(const std::filesystem::path 
 
         if(line_mode == Line_mode::DIALOG_START)
         {
-            Dialog_parser_pack pack{.dialog_box = &currently_parsed_npc.dialog_box, .input_box = &currently_parsed_npc.input_box, .graf = &currently_parsed_npc.dialog_graf, .font = &currently_parsed_npc.font, .texture = &currently_parsed_npc.dialog_texture, .sprite = &currently_parsed_npc.dialog_sprite, .tex_changer = &currently_parsed_npc.tex_changer, .input_nodes_offset = &currently_parsed_npc.input_nodes_offset};
-
-            dialog_parser.Start_parsing(buffer_view, pos, pack);
+            currently_parsed_npc.dialog_manager = dialog_parser.Parse(buffer_view, pos);
         }
     }
 

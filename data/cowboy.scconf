@@ -27,7 +27,7 @@
 [5: 2] Stary album. ~6~
 [6: 2] Czy chcesz go otworzyc? ~?2~
 
-[7: 5] Chyba wiem kto moze byc wlascicielem tej walizki... ~8~
+[7: 5] Chyba wiem kto moze byc wlascicielem tej walizki... ~8 &1~
 [8: 0] ~9~
 [9: 0] Chyba juz wiem kto jest wlascicielem tej walizki. ~8~
 
@@ -38,9 +38,12 @@
 ~3~ Siodlo
 ~4~ Koszula
 ~5~ Album
+~0~ Odejdz
 ?
 
 ?2: 2?
 ~7~ Tak
 ~1~ Nie
 ?
+
+&1& Cowboy check

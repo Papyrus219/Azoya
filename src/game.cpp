@@ -7,6 +7,8 @@ using namespace azoya;
 
 void azoya::Game::Setup()
 {
+    Dialog_manager::event_manager = this;
+
     window.create(sf::VideoMode{ {1910, 1080} }, "Azoya", sf::Style::Default);
 
     if(!Npc::world_texture.loadFromFile("../../../img/world_sprites.png"))
@@ -68,36 +70,36 @@ void azoya::Game::Setup()
     background_sprite.setTexture(background_texture, true);
 
     //Cowboy setup
-    cowboy_npc.dialog_sprite.setPosition({900, 500});
+    cowboy_npc.dialog_manager->sprite.setPosition({900, 500});
 
-    cowboy_npc.dialog_box.Set_size( {1680, 240} );
-    cowboy_npc.dialog_box.Set_position( {120, 832} );
+    cowboy_npc.dialog_manager->dialog_box.Set_size( {1680, 240} );
+    cowboy_npc.dialog_manager->dialog_box.Set_position( {120, 832} );
 
-    cowboy_npc.dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
+    cowboy_npc.dialog_manager->dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
 
     //Mother setup
-    mother_npc.dialog_sprite.setPosition({900, 500});
+    mother_npc.dialog_manager->sprite.setPosition({900, 500});
 
-    mother_npc.dialog_box.Set_size( {1680, 240} );
-    mother_npc.dialog_box.Set_position( {120, 832} );
+    mother_npc.dialog_manager->dialog_box.Set_size( {1680, 240} );
+    mother_npc.dialog_manager->dialog_box.Set_position( {120, 832} );
 
-    mother_npc.dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
+    mother_npc.dialog_manager->dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
 
     //Superstar setup
-    superstar_npc.dialog_sprite.setPosition({900, 500});
+    superstar_npc.dialog_manager->sprite.setPosition({900, 500});
 
-    superstar_npc.dialog_box.Set_size( {1680, 240} );
-    superstar_npc.dialog_box.Set_position( {120, 832} );
+    superstar_npc.dialog_manager->dialog_box.Set_size( {1680, 240} );
+    superstar_npc.dialog_manager->dialog_box.Set_position( {120, 832} );
 
-    superstar_npc.dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
+    superstar_npc.dialog_manager->dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
 
     //Super fan setup
-    super_fan_npc.dialog_sprite.setPosition({900, 500});
+    super_fan_npc.dialog_manager->sprite.setPosition({900, 500});
 
-    super_fan_npc.dialog_box.Set_size( {1680, 240} );
-    super_fan_npc.dialog_box.Set_position( {120, 832} );
+    super_fan_npc.dialog_manager->dialog_box.Set_size( {1680, 240} );
+    super_fan_npc.dialog_manager->dialog_box.Set_position( {120, 832} );
 
-    super_fan_npc.dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
+    super_fan_npc.dialog_manager->dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
 
 
     if(!suitcase_icons_textures.loadFromFile("../../../img/suitcase_icons.png"))
@@ -118,10 +120,10 @@ void azoya::Game::Setup()
 
     suitcase.suitcase_sprite.setTexture(suitcase.suitcase_texture, true);
     suitcase.suitcase_sprite.setPosition( {300, -10} );
-    suitcase.dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
-    suitcase.dialog_box.Set_size( {1680, 240} );
-    suitcase.dialog_box.Set_position( {120, 832} );
-    suitcase.item_sprite.setPosition( {600, 200} );
+    suitcase.dialog_manager->dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
+    suitcase.dialog_manager->dialog_box.Set_size( {1680, 240} );
+    suitcase.dialog_manager->dialog_box.Set_position( {120, 832} );
+    suitcase.dialog_manager->sprite.setPosition( {600, 200} );
 }
 
 void azoya::Game::Start()
@@ -132,6 +134,19 @@ void azoya::Game::Start()
 
         Update();
     }
+}
+
+void azoya::Game::Annouce_event(std::string_view event_name)
+{
+    for(auto npc_ptr : active_npcs)
+    {
+        if(npc_ptr)
+        {
+            npc_ptr->dialog_manager->React_to_dialog_event(event_name);
+        }
+    }
+
+    suitcase.dialog_manager->React_to_dialog_event(event_name);
 }
 
 void azoya::Game::Update()
@@ -244,18 +259,17 @@ void azoya::Game::Update_game()
         case Game_state::DIALOG:
         {
             assert(current_talking_npc);
+            current_talking_npc->dialog_manager->Update( mouse_pos );
 
-            switch(current_talking_npc->Get_mode())
+            switch(current_talking_npc->dialog_manager->Get_mode())
             {
                 case Node_mode::NONE:
                     game_state = Game_state::NONE;
                     current_talking_npc = nullptr;
                     break;
                 case Node_mode::DIALOG:
-                    current_talking_npc->dialog_box.Update();
                     break;
                 case Node_mode::INPUT:
-                    current_talking_npc->input_box.Update( mouse_pos );
                     break;
                 case Node_mode::FUNCTION:
                     break;
@@ -264,16 +278,15 @@ void azoya::Game::Update_game()
         }
         case Game_state::SUITCASE:
         {
-            switch(suitcase.Get_mode())
+            suitcase.dialog_manager->Update(mouse_pos);
+            switch(suitcase.dialog_manager->Get_mode())
             {
                 case Node_mode::NONE:
                     game_state = Game_state::NONE;
                     break;
                 case Node_mode::DIALOG:
-                    suitcase.dialog_box.Update();
                     break;
                 case Node_mode::INPUT:
-                    suitcase.input_box.Update( mouse_pos );
                     break;
                 case Node_mode::FUNCTION:
                     break;
@@ -305,7 +318,7 @@ void azoya::Game::React_to_event_game(const sf::Event & event)
                             {
                                 game_state = Game_state::DIALOG;
                                 current_talking_npc = npc_ptr;
-                                current_talking_npc->Click(mouse_pos);
+                                current_talking_npc->dialog_manager->Click(mouse_pos);
                             }
                         }
                     }
@@ -313,7 +326,7 @@ void azoya::Game::React_to_event_game(const sf::Event & event)
                     if(suitcase_sprite.getGlobalBounds().contains(mouse_pos))
                     {
                         game_state = Game_state::SUITCASE;
-                        suitcase.Click(mouse_pos);
+                        suitcase.dialog_manager->Click(mouse_pos);
                     }
                 }
             }
@@ -327,7 +340,7 @@ void azoya::Game::React_to_event_game(const sf::Event & event)
             {
                 if(button_pressed->button == sf::Mouse::Button::Left)
                 {
-                    current_talking_npc->Click( mouse_pos );
+                    current_talking_npc->dialog_manager->Click( mouse_pos );
                 }
             }
 
@@ -339,7 +352,7 @@ void azoya::Game::React_to_event_game(const sf::Event & event)
             {
                 if(button_pressed->button == sf::Mouse::Button::Left)
                 {
-                    suitcase.Click( mouse_pos );
+                    suitcase.dialog_manager->Click( mouse_pos );
                 }
             }
             break;
@@ -372,17 +385,17 @@ void azoya::Game::Render_game()
         {
             assert(current_talking_npc);
 
-            window.draw( current_talking_npc->dialog_sprite );
+            window.draw( current_talking_npc->dialog_manager->sprite );
 
-            switch(current_talking_npc->Get_mode())
+            switch(current_talking_npc->dialog_manager->Get_mode())
             {
                 case Node_mode::NONE:
                     break;
                 case Node_mode::DIALOG:
-                    window.draw( current_talking_npc->dialog_box );
+                    window.draw( current_talking_npc->dialog_manager->dialog_box );
                     break;
                 case Node_mode::INPUT:
-                    window.draw( current_talking_npc->input_box );
+                    window.draw( current_talking_npc->dialog_manager->input_box );
                     break;
                 case Node_mode::FUNCTION:
                     break;
@@ -393,17 +406,17 @@ void azoya::Game::Render_game()
         case Game_state::SUITCASE:
         {
             window.draw( suitcase.suitcase_sprite );
-            window.draw( suitcase.item_sprite );
+            window.draw( suitcase.dialog_manager->sprite );
 
-            switch(suitcase.Get_mode())
+            switch(suitcase.dialog_manager->Get_mode())
             {
                 case Node_mode::NONE:
                     break;
                 case Node_mode::DIALOG:
-                    window.draw( suitcase.dialog_box );
+                    window.draw( suitcase.dialog_manager->dialog_box );
                     break;
                 case Node_mode::INPUT:
-                    window.draw( suitcase.input_box );
+                    window.draw( suitcase.dialog_manager->input_box );
                     break;
                 case Node_mode::FUNCTION:
                     break;

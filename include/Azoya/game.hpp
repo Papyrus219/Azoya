@@ -5,16 +5,19 @@
 #include <SFML/Audio.hpp>
 #include <Azoya/npc.hpp>
 #include <Azoya/suitcase.hpp>
+#include <Azoya/event_manager.hpp>
 #include <array>
 
 namespace azoya
 {
 
-class Game
+class Game: public Event_manager
 {
 public:
     void Setup();
     void Start();
+
+    void Annouce_event(std::string_view event_name) override;
 
 private:
     enum class Program_state
