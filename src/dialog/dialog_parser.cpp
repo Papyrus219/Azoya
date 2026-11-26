@@ -83,6 +83,8 @@ void azoya::Dialog_parser::Parse_line(std::string_view line)
                 std::cerr << "ERROR::DIALOG_PARSER::Failed to open font: " << line << '\n';
             }
 
+            std::clog << "Font: " << current_manager.font.getInfo().family << '\n';
+
             current_manager.dialog_box.Init(name, current_manager.font, sf::Color::Cyan, sf::Color::Green, is_name);
             current_manager.input_box.Init(current_manager.font, sf::Color::Cyan, sf::Color::Green);
 

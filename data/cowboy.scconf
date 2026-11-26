@@ -21,29 +21,39 @@
 0 0 0
 
 [1: 0] Co chcesz zbadac w walizce? ~?1~
-[2: 4] Dlugi sznurek... ~?1~
-[3: 1] Dla konia! ~?1~
-[4: 3] Ale badziewny wzór... ~?1~
-[5: 2] Stary album. ~6~
-[6: 2] Czy chcesz go otworzyc? ~?2~
 
-[7: 5] Chyba wiem kto moze byc wlascicielem tej walizki... ~8 &1~
-[8: 0] ~9~
-[9: 0] Chyba juz wiem kto jest wlascicielem tej walizki. ~8~
+#Lasso
+[2: 4] Lasso wygląda na mocno zużyte. ~3~
+[3: 4] Ktoś musiał go intensywnie używać. ~?1~
+
+#Siodło
+[4: 1] Siodło wygląda nowe. ~5~
+[5: 1] Zupełnie jakby nie zostało nigdy zużyte... ~?1~
+
+#Koszula
+[6: 3] Koszula jest brudna od piasku, błota i... piór... ~?1~
+
+#Album
+[7: 2] Stary album z zdjęciami. ~8~
+[8: 2] Czy chcesz go otworzyc? ~?2~
+
+[9: 5] Chyba wiesz kto moze byc wlascicielem tej walizki... ~10 &1~
+[10: 0] ~11~
+[11: 0] Chyba juz wiesz kto jest wlascicielem tej walizki. ~10~
 
 @@@@@
 
 ?1: 0?
 ~2~ Lasso
-~3~ Siodlo
-~4~ Koszula
-~5~ Album
+~4~ Siodlo
+~6~ Koszulę
+~7~ Album
 ~0~ Odejdz
 ?
 
 ?2: 2?
-~7~ Tak
+~9~ Tak
 ~1~ Nie
 ?
 
-&1& Cowboy check
+&1& W1 find
