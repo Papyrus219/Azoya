@@ -1,12 +1,12 @@
-200 0 200 800
+0 0 340 750
 
 {Kowboj}
 ../../../fonts/kowboj.ttf
 
-#0-Happy 1-Sad 2-Angry 3-Question
+#0-Hello 1-Sad 2-Yupii 
 ../../../img/anonim.png
 #Texture variant size
-200 200
+600 850
 
 #Dialog background color
 0 0 255
@@ -21,27 +21,28 @@
 #Input text color
 0 0 0
 
-[1: 0] Czolem partnerze! ~2~
-[2: 1] Nie widzial ty moze gdzie mojej walizki? ~3~
-[3: 3] W tym miejscu jest wiekszy rozgardiasz niż w saloonie... ~4~
-[4: 2] Nigdy więcej nie latam tym ,,Rayanerem''... ~5~
-[5: 1] Przez ten caly bajzel spoznie sie na moje rancho... ~6~
+[1: 0] Czołem partnerze! ~2~
+[2: 2] Nie widział ty może gdzie mojej walizki? ~3~
+[3: 0] W tym miejscu jest większy rozgardiasz niż w saloonie... ~4~
+[4: 0] Nigdy więcej nie latam tym ,,Rayanerem''... ~5~
+[5: 1] Przez ten cały bajzel spóznię się na moje rancho... ~6~
 [6: 2] Moja kura Koko na mnie czeka! ~7~
-[7: 1] Biedaczka strasznie sie stresuje przez ten film w którym ma zagrac. ~8~
+[7: 1] Biedaczka strasznie się stresuje przez ten film w którym ma zagrać. ~8~
 [8: 1] ~9~
-[9: 1] Musze jak najpredzej dostac się na Ranczo! ~10~
-[10: 2] Koko czeka! ~8~
+[9: 2] Musze jak najprędzej dostać się na Ranczo! ~10~
+[10: 1] Koko czeka! ~8~
 
 $W1 find$ ~11~
 [11: 0] ~12~
-[12: 0] Znalazles moją walizke? ~13~
-[13: 0] Yihha! ~14~
+[12: 1] Znalazleś moją walizke? ~13~
+[13: 2] Yihha! ~14~
 [14: 0] Dzięki wielkie Druchu! ~15~
-[15: 0] Mogę teraz wracac do Koko! ~16~
-[16: 0] Bywaj! ~17 &1~
-[17: 0] ~17~;
+[15: 0] Mogę teraz wracać do Koko! ~16~
+[16: 1] Bywaj! ~17 &1~
+[17: 1] ~17~;
 
 &1& W1 return
 
 @@@@@
+
 

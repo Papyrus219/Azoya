@@ -2,6 +2,7 @@
 #include <iostream>
 #include <Azoya/npc.hpp>
 #include <Azoya/npc_parser.hpp>
+#include <wchar.h>
 
 using namespace azoya;
 
@@ -33,19 +34,19 @@ void azoya::Game::Setup()
     }
 
     cowboy_npc = Npc::parser.Parse_npc_config_file("../../../data/cowboy.pgconf");
-    mother_npc = Npc::parser.Parse_npc_config_file("../../../data/mother.pgconf");
-    superstar_npc = Npc::parser.Parse_npc_config_file("../../../data/superstar.pgconf");
-    super_fan_npc = Npc::parser.Parse_npc_config_file("../../../data/super_fan.pgconf");
+    //mother_npc = Npc::parser.Parse_npc_config_file("../../../data/mother.pgconf");
+    //superstar_npc = Npc::parser.Parse_npc_config_file("../../../data/superstar.pgconf");
+    //super_fan_npc = Npc::parser.Parse_npc_config_file("../../../data/super_fan.pgconf");
 
     active_npcs[0] = &cowboy_npc;
-    active_npcs[1] = &mother_npc;
-    active_npcs[2] = &superstar_npc;
-    active_npcs[3] = &super_fan_npc;
+    // active_npcs[1] = &mother_npc;
+    // active_npcs[2] = &superstar_npc;
+    // active_npcs[3] = &super_fan_npc;
 
-    cowboy_npc.world_sprite.setPosition({300, 400});
-    mother_npc.world_sprite.setPosition({550, 400});
-    superstar_npc.world_sprite.setPosition({800, 400});
-    super_fan_npc.world_sprite.setPosition({1050, 400});
+    cowboy_npc.world_sprite.setPosition({475, 250});
+    // mother_npc.world_sprite.setPosition({550, 400});
+    // superstar_npc.world_sprite.setPosition({800, 400});
+    // super_fan_npc.world_sprite.setPosition({1050, 400});
 
     if(!main_menu_bg_texture.loadFromFile("../../../img/main_menu.png"))
     {
@@ -70,13 +71,13 @@ void azoya::Game::Setup()
     background_sprite.setTexture(background_texture, true);
 
     //Cowboy setup
-    cowboy_npc.dialog_manager->sprite.setPosition({900, 500});
+    cowboy_npc.dialog_manager->sprite.setPosition({750, 00});
 
     cowboy_npc.dialog_manager->dialog_box.Set_size( {1680, 240} );
     cowboy_npc.dialog_manager->dialog_box.Set_position( {120, 832} );
 
     cowboy_npc.dialog_manager->dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
-
+/*
     //Mother setup
     mother_npc.dialog_manager->sprite.setPosition({900, 500});
 
@@ -100,11 +101,11 @@ void azoya::Game::Setup()
     super_fan_npc.dialog_manager->dialog_box.Set_position( {120, 832} );
 
     super_fan_npc.dialog_manager->dialog_box.Set_text_speed( Dialog_box::Text_speed::FAST );
-
+*/
 
     if(!suitcase_icons_textures.loadFromFile("../../../img/suitcase_icons.png"))
     {
-        std::cerr << "ERROR::GAME::Failed to load suitcase icons textures.\n";
+         std::cerr << "ERROR::GAME::Failed to load suitcase icons textures.\n";
     }
 
     suitcase_sprite.setTexture(suitcase_icons_textures, true);
@@ -136,7 +137,7 @@ void azoya::Game::Start()
     }
 }
 
-void azoya::Game::Annouce_event(std::string_view event_name)
+void azoya::Game::Annouce_event(std::wstring_view event_name)
 {
     for(auto npc_ptr : active_npcs)
     {

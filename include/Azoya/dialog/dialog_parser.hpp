@@ -16,24 +16,24 @@ namespace azoya
 class Dialog_parser
 {
 public:
-    Dialog_manager Parse(std::string_view buffor, size_t & pos);
+    Dialog_manager Parse(std::wstring_view buffor, size_t & pos);
 
 private:
-    void Parse_line(std::string_view line);
+    void Parse_line(std::wstring_view line);
 
-    sf::Color Parse_color(std::string_view line);
+    sf::Color Parse_color(std::wstring_view line);
 
     template<typename T>
-    void Convert_string_to_number(std::string_view str, T & var, std::string_view var_name = "NOT GIVEN");
+    void Convert_string_to_number(std::wstring_view str, T & var, std::string_view var_name = "NOT GIVEN");
 
     Dialog_manager current_manager{};
 
-    std::string_view name{};
+    std::wstring_view name{};
     bool is_name{};
 
     uint32_t current_id{};
 
-    std::vector<std::string_view> tmp_input_texts{};
+    std::vector<std::wstring_view> tmp_input_texts{};
     std::vector<uint32_t> tmp_input_results{};
 
     sf::Color dialog_bg_color{};
@@ -67,12 +67,15 @@ private:
 };
 
 template<typename T>
-void azoya::Dialog_parser::Convert_string_to_number(std::string_view str, T & var, std::string_view var_name)
+void azoya::Dialog_parser::Convert_string_to_number(std::wstring_view str, T & var, std::string_view var_name)
 {
-    auto [ptr, ec] = std::from_chars(str.data(), str.data() + str.size(), var);
-    if(ec != std::errc{})
+    try
     {
-        std::println(std::cerr, "Failed to parse variable: {}", var_name);
+        var = static_cast<T>(std::stof( std::wstring{str}));
+    }
+    catch(const std::exception & except)
+    {
+        std::cerr << "Failed to parse variable: " << var_name << '\n';
     }
 }
 

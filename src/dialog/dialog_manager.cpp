@@ -47,8 +47,8 @@ void azoya::Dialog_manager::Click(sf::Vector2f mouse_pos)
 
             current_node_id = graf[ current_node_id ].next_node_id + offset;
 
-            std::clog << "Dialog: " << current_node_id << " -> " << graf[current_node_id].dialog_text_id << '\n';
-            std::clog << "Mode -> Current: " << Node_mode_to_string(graf[current_node_id].node_mode) << " Next: " << Node_mode_to_string(graf[current_node_id].next_node_mode) << '\n';
+            std::wclog << "Dialog: " << current_node_id << " -> " << graf[current_node_id].dialog_text_id << '\n';
+            std::wclog << "Mode -> Current: " << Node_mode_to_string(graf[current_node_id].node_mode) << " Next: " << Node_mode_to_string(graf[current_node_id].next_node_mode) << '\n';
 
             switch(graf[current_node_id].node_mode)
             {
@@ -66,10 +66,10 @@ void azoya::Dialog_manager::Click(sf::Vector2f mouse_pos)
                     break;
             }
 
-            std::clog << "IN MOMENT OF CHECK HAVE: " << current_node_id << '\n';
+            std::wclog << "IN MOMENT OF CHECK HAVE: " << current_node_id << '\n';
             if(graf[current_node_id].event_id)
             {
-                std::clog << "EVENT!\n";
+                std::wclog << "EVENT!\n";
                 event_manager->Annouce_event( events_name[*graf[current_node_id].event_id] );
             }
 
@@ -85,10 +85,10 @@ void azoya::Dialog_manager::Click(sf::Vector2f mouse_pos)
                 dialog_box.Set_dialog_option( graf[current_node_id].dialog_text_id );
                 sprite.setTextureRect( tex_changer.Get_variant_rect( graf[current_node_id].sprite_variant_id ) );
 
-                std::clog << "IN MOMENT OF CHECK HAVE: " << current_node_id << '\n';
+                std::wclog << "IN MOMENT OF CHECK HAVE: " << current_node_id << '\n';
                 if(graf[current_node_id].event_id)
                 {
-                    std::clog << "EVENT!\n";
+                    std::wclog << "EVENT!\n";
                     event_manager->Annouce_event( events_name[*graf[current_node_id].event_id] );
                 }
             }
@@ -100,20 +100,20 @@ void azoya::Dialog_manager::Click(sf::Vector2f mouse_pos)
             break;
         }
     }
-    std::clog << "NOW HAVE: " << current_node_id << "\n";
+    std::wclog << "NOW HAVE: " << current_node_id << "\n";
     if( graf[current_node_id].event_id )
     {
-        std::clog << "HAVE EVENT!\n";
+        std::wclog << "HAVE EVENT!\n";
     }
 }
 
-void azoya::Dialog_manager::React_to_dialog_event(std::string_view event_name)
+void azoya::Dialog_manager::React_to_dialog_event(std::wstring_view event_name)
 {
-    auto bookmark_it = event_bookmarks.find( std::string{event_name});
+    auto bookmark_it = event_bookmarks.find( std::wstring{event_name});
 
     if(bookmark_it != event_bookmarks.end())
     {
-        std::clog << "MATCH!\n";
+        std::wclog << "MATCH!\n";
 
         current_node_id = bookmark_it->second;
 
@@ -122,19 +122,19 @@ void azoya::Dialog_manager::React_to_dialog_event(std::string_view event_name)
     }
 }
 
-std::string_view azoya::Dialog_manager::Node_mode_to_string(Node_mode mode)
+std::wstring_view azoya::Dialog_manager::Node_mode_to_string(Node_mode mode)
 {
     switch(mode)
     {
         case Node_mode::NONE:
-            return "NONE";
+            return L"NONE";
         case Node_mode::DIALOG:
-            return "DIALOG";
+            return L"DIALOG";
         case Node_mode::INPUT:
-            return "INPUT";
+            return L"INPUT";
         case Node_mode::FUNCTION:
-            return "FUNCTION";
+            return L"FUNCTION";
     }
 
-    return "";
+    return L"";
 }

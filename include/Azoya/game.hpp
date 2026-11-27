@@ -17,7 +17,7 @@ public:
     void Setup();
     void Start();
 
-    void Annouce_event(std::string_view event_name) override;
+    void Annouce_event(std::wstring_view event_name) override;
 
 private:
     enum class Program_state

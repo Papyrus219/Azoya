@@ -20,7 +20,7 @@ void azoya::Input_box::Init(const sf::Font & font, sf::Color background_color, s
     this->border_color = border_color;
     this->hover_type = hover_type;
 
-    Add_option_pack({"PLACEHOLEDER1", "PLACEHOLEDER2"}, {3, 4});
+    Add_option_pack({L"PLACEHOLEDER1", L"PLACEHOLEDER2"}, {3, 4});
 }
 
 void azoya::Input_box::Update(sf::Vector2f mouse_pos)
@@ -55,7 +55,7 @@ void azoya::Input_box::Update(sf::Vector2f mouse_pos)
 }
 
 
-uint32_t azoya::Input_box::Add_option_pack(std::initializer_list<std::string_view> texts, std::initializer_list<uint32_t> results)
+uint32_t azoya::Input_box::Add_option_pack(std::initializer_list<std::wstring_view> texts, std::initializer_list<uint32_t> results)
 {
     assert(texts.size() == results.size());
 
@@ -91,7 +91,7 @@ uint32_t azoya::Input_box::Add_option_pack(std::initializer_list<std::string_vie
     return options_packs.size() - 1;
 }
 
-uint32_t azoya::Input_box::Add_option_pack(std::span<std::string_view> texts, std::span<uint32_t> results)
+uint32_t azoya::Input_box::Add_option_pack(std::span<std::wstring_view> texts, std::span<uint32_t> results)
 {
     assert(texts.size() == results.size());
 
@@ -185,6 +185,43 @@ void azoya::Input_box::Set_text_color(sf::Color new_color)
         for(auto & text : pack.texts)
         {
             text.setFillColor( new_color );
+        }
+    }
+}
+
+void azoya::Input_box::Set_color_set(const Dialog_color_set & color_set)
+{
+    background_color = color_set.input_bg_color;
+
+    main_box.setFillColor( color_set.input_bg_color );
+
+    for(auto & option_pack : options_packs)
+    {
+        for(auto & box : option_pack.boxes)
+        {
+            box.setFillColor(color_set.input_bg_color);
+        }
+    }
+
+    border_color = color_set.input_border_color;
+
+    main_box.setOutlineColor( color_set.input_border_color );
+
+    for(auto & option_pack : options_packs)
+    {
+        for(auto & box : option_pack.boxes)
+        {
+            box.setOutlineColor(color_set.input_border_color);
+        }
+    }
+
+    text_color = color_set.input_text_color;
+
+    for(auto & pack : options_packs)
+    {
+        for(auto & text : pack.texts)
+        {
+            text.setFillColor( color_set.input_text_color );
         }
     }
 }

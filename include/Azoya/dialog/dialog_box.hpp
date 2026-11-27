@@ -1,6 +1,7 @@
 #ifndef AZOYA_DIALOG_BOX_HPP
 #define AZOYA_DIALOG_BOX_HPP
 
+#include <Azoya/dialog/dialog_color_set.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
@@ -33,6 +34,8 @@ public:
     void Set_background_color(sf::Color new_color);
     void Set_outline_color(sf::Color new_color);
     void Set_text_color(sf::Color new_color);
+
+    void Set_color_set(const Dialog_color_set & color_set);
 
     void Set_character_size( uint16_t new_size );
 

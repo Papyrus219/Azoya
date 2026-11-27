@@ -23,22 +23,22 @@ public:
     Npc Parse_npc_config_file(const std::filesystem::path & path);
 
     template<typename T>
-    void Convert_string_to_number(std::string_view str, T & var, std::string_view var_name = "NOT GIVEN");
+    void Convert_string_to_number(std::wstring_view str, T & var, std::string_view var_name = "NOT GIVEN");
 
 private:
-    void Parse_line(std::string_view line);
+    void Parse_line(std::wstring_view line);
 
     Dialog_parser dialog_parser{};
 
     Npc currently_parsed_npc{};
     sf::IntRect world_tex_rect{};
 
-    std::string_view name{};
+    std::wstring_view name{};
     uint32_t current_id{};
 
     std::ifstream file{};
     std::size_t line_count{};
-    std::string buffor{};
+    std::wstring buffor{};
 
     sf::Color dialog_box_background_color{};
     sf::Color dialog_box_border_color{};
@@ -50,12 +50,15 @@ private:
 };
 
 template<typename T>
-void azoya::Npc_parser::Convert_string_to_number(std::string_view str, T & var, std::string_view var_name)
+void azoya::Npc_parser::Convert_string_to_number(std::wstring_view str, T & var, std::string_view var_name)
 {
-    auto [ptr, ec] = std::from_chars(str.data(), str.data() + str.size(), var);
-    if(ec != std::errc{})
+    try
     {
-        std::println(std::cerr, "Failed to parse variable: {}", var_name);
+        var = static_cast<T>(std::stof( std::wstring{str}));
+    }
+    catch(const std::exception & except)
+    {
+        std::cerr << "Failed to parse variable: " << var_name << '\n';
     }
 }
 

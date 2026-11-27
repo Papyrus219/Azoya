@@ -3,16 +3,18 @@
 
 void azoya::Suitcase::Init(const std::filesystem::path & path)
 {
-    std::ifstream file{path};
+    std::wifstream file;
+    file.imbue(std::locale("C.UTF-8"));
+    file.open(path);
     if(!file)
     {
-
+        std::cerr << "FAIL TO OPEN FILE!\n";
     }
 
-    std::ostringstream ss{};
+    std::wostringstream ss{};
     ss << file.rdbuf();
 
-    std::string buffor = ss.str();
+    std::wstring buffor = ss.str();
 
     size_t pos{0};
     dialog_manager = Dialog_manager::parser.Parse(buffor, pos);

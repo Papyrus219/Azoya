@@ -1,6 +1,7 @@
 #ifndef AZOYA_INPUT_BOX_HPP
 #define AZOYA_INPUT_BOX_HPP
 
+#include <Azoya/dialog/dialog_color_set.hpp>
 #include <SFML/Graphics.hpp>
 #include <optional>
 #include <initializer_list>
@@ -20,8 +21,8 @@ public:
     void Init(const sf::Font & font, sf::Color background_color, sf::Color border_color, Hover_type hover_type = Hover_type::LIGHT);
     void Update(sf::Vector2f mouse_pos);
 
-    uint32_t Add_option_pack(std::initializer_list<std::string_view> texts, std::initializer_list<uint32_t> results);
-    uint32_t Add_option_pack(std::span<std::string_view> texts, std::span<uint32_t> results);
+    uint32_t Add_option_pack(std::initializer_list<std::wstring_view> texts, std::initializer_list<uint32_t> results);
+    uint32_t Add_option_pack(std::span<std::wstring_view> texts, std::span<uint32_t> results);
 
     void Set_option_pack(uint32_t pack_id);
 
@@ -30,6 +31,8 @@ public:
     void Set_background_color(sf::Color new_color);
     void Set_outline_color(sf::Color new_color);
     void Set_text_color(sf::Color new_color);
+
+    void Set_color_set(const Dialog_color_set & color_set);
 
 private:
     struct Option_pack

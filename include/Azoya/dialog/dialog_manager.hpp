@@ -19,7 +19,7 @@ class Dialog_manager
 public:
     void Click(sf::Vector2f mouse_pos);
     void Update(sf::Vector2f mouse_pos);
-    void React_to_dialog_event(std::string_view event_name);
+    void React_to_dialog_event(std::wstring_view event_name);
 
     Node_mode Get_mode() {return graf[current_node_id].node_mode;}
 
@@ -35,7 +35,7 @@ public:
 private:
     Dialog_manager() = default;
 
-    std::string_view Node_mode_to_string(Node_mode mode);
+    std::wstring_view Node_mode_to_string(Node_mode mode);
 
     std::vector <Dialog_node> graf{};
     uint32_t current_node_id{};
@@ -43,8 +43,8 @@ private:
     uint32_t input_offset{};
     uint32_t event_offset{};
 
-    std::unordered_map<uint32_t, std::string> events_name{};
-    std::unordered_map<std::string, uint> event_bookmarks{};
+    std::unordered_map<uint32_t, std::wstring> events_name{};
+    std::unordered_map<std::wstring, uint> event_bookmarks{};
 
     Texture_changer tex_changer{};
 

@@ -181,6 +181,24 @@ void azoya::Dialog_box::Set_text_color(sf::Color new_color)
      name.setFillColor( new_color );
 }
 
+void azoya::Dialog_box::Set_color_set(const Dialog_color_set & color_set)
+{
+    box.setFillColor( color_set.dialog_bg_color );
+    name_box.setFillColor( color_set.dialog_bg_color );
+
+    box.setOutlineColor( color_set.dialog_border_color );
+    name_box.setOutlineColor( color_set.dialog_border_color );
+
+    for(auto & text : dialogs_content)
+    {
+        text.setFillColor( color_set.dialog_text_color );
+    }
+
+    current_animation_text.setFillColor( color_set.dialog_text_color );
+    name.setFillColor( color_set.dialog_text_color );
+}
+
+
 void azoya::Dialog_box::Set_character_size(uint16_t new_size)
 {
     for(auto & text : dialogs_content)

@@ -1,5 +1,5 @@
 {}
-../../../fonts/Kotek.otf
+../../../fonts/kowboj.ttf
 
 #0-NOTHING 1-SADDLE 2-ALBUM 3-SHIRT 4-LASSO 5-REVEAL
 ../../../img/cowboy_items.png
@@ -20,7 +20,7 @@
 #Input text color
 0 0 0
 
-[1: 0] Co chcesz zbadac w walizce? ~?1~
+[1: 0] Co chcesz zbadać w walizce? ~?1~
 
 #Lasso
 [2: 4] Lasso wygląda na mocno zużyte. ~3~
@@ -37,9 +37,9 @@
 [7: 2] Stary album z zdjęciami. ~8~
 [8: 2] Czy chcesz go otworzyc? ~?2~
 
-[9: 5] Chyba wiesz kto moze byc wlascicielem tej walizki... ~10 &1~
+[9: 5] Chyba wiesz kto może być właścicielem tej walizki... ~10 &1~
 [10: 0] ~11~
-[11: 0] Chyba juz wiesz kto jest wlascicielem tej walizki. ~10~
+[11: 0] Chyba już wiesz kto jest właścicielem tej walizki. ~10~
 
 @@@@@
 
@@ -48,7 +48,7 @@
 ~4~ Siodlo
 ~6~ Koszulę
 ~7~ Album
-~0~ Odejdz
+~0~ Odejdź
 ?
 
 ?2: 2?

@@ -9,7 +9,7 @@ namespace azoya
 class Event_manager
 {
 public:
-    virtual void Annouce_event(std::string_view event_name) = 0;
+    virtual void Annouce_event(std::wstring_view event_name) = 0;
 };
 
 }
